@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+DIET Attendance AI - Login
+</title>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+
+    margin: 0;
+
+    min-height: 100%;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+}
+
+
+body {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    color: white;
+
+    background:
+
+        linear-gradient(
+            rgba(3, 20, 50, .50),
+            rgba(3, 20, 50, .68)
+        ),
+
+        url(
+            "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2400&q=95"
+        )
+        center / cover fixed no-repeat;
+
+}
+
+
+.login-card {
+
+    width: 100%;
+
+    max-width: 460px;
+
+    padding: 38px;
+
+    border-radius: 26px;
+
+    background:
+        rgba(10, 25, 55, .88);
+
+    border:
+        1px solid
+        rgba(255,255,255,.20);
+
+    box-shadow:
+        0 30px 90px
+        rgba(0,0,0,.50);
+
+    backdrop-filter:
+        blur(20px);
+
+}
+
+
+.logo {
+
+    width: 75px;
+
+    height: 75px;
+
+    margin: auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #06b6d4
+        );
+
+    font-weight: 900;
+
+    font-size: 20px;
+
+}
+
+
+h1 {
+
+    text-align: center;
+
+    margin:
+        17px 0 5px;
+
+    font-size: 28px;
+
+}
+
+
+.subtitle {
+
+    text-align: center;
+
+    color: #bfdbfe;
+
+    font-size: 12px;
+
+    margin-bottom: 25px;
+
+}
+
+
+label {
+
+    display: block;
+
+    margin:
+        15px 0 7px;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+}
+
+
+input,
+select {
+
+    width: 100%;
+
+    height: 50px;
+
+    padding:
+        0 14px;
+
+    border-radius: 11px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.20);
+
+    outline: none;
+
+    background:
+        rgba(0,0,0,.30);
+
+    color: white;
+
+    font-size: 14px;
+
+}
+
+
+select option {
+
+    color: black;
+
+    background: white;
+
+}
+
+
+input:focus,
+select:focus {
+
+    border-color:
+        #38bdf8;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(56,189,248,.15);
+
+}
+
+
+button {
+
+    cursor: pointer;
+
+}
+
+
+.login-button {
+
+    width: 100%;
+
+    height: 52px;
+
+    margin-top: 23px;
+
+    border: 0;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #0891b2
+        );
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 900;
+
+}
+
+
+.login-button:disabled {
+
+    opacity: .60;
+
+    cursor: wait;
+
+}
+
+
+#message {
+
+    min-height: 24px;
+
+    margin-top: 16px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+.info {
+
+    margin-top: 18px;
+
+    padding: 13px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,.07);
+
+    color: #cbd5e1;
+
+    text-align: center;
+
+    font-size: 10px;
+
+    line-height: 1.7;
+
+}
+
+
+.contact {
+
+    margin-top: 18px;
+
+    text-align: center;
+
+    color: #93c5fd;
+
+    font-size: 10px;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-card">
+
+
+<div class="logo">
+DIET
+</div>
+
+
+<h1>
+DIET Attendance AI
+</h1>
+
+
+<div class="subtitle">
+Dhanesh Institute of Engineering and Technology
+</div>
+
+
+<form id="loginForm">
+
+
+<label for="role">
+SELECT PORTAL
+</label>
+
+
+<select
+    id="role"
+    required
+>
+
+<option value="">
+Select Portal
+</option>
+
+<option value="STUDENT">
+Student
+</option>
+
+<option value="FACULTY">
+Faculty
+</option>
+
+<option value="HOD">
+HOD
+</option>
+
+<option value="ADMIN">
+Administrator
+</option>
+
+</select>
+
+
+<label for="id">
+ID / Registration Number
+</label>
+
+
+<input
+    id="id"
+    type="text"
+    placeholder="Enter your college ID"
+    autocomplete="username"
+    required
+>
+
+
+<label for="password">
+PASSWORD
+</label>
+
+
+<input
+    id="password"
+    type="password"
+    placeholder="Enter your password"
+    autocomplete="current-password"
+    required
+>
+
+
+<button
+    id="loginButton"
+    class="login-button"
+    type="submit"
+>
+
+LOGIN TO PORTAL →
+
+</button>
+
+
+<div id="message"></div>
+
+
+</form>
+
+
+<div class="info">
+
+Student → College Registration Number
+
+<br>
+
+Faculty → Faculty ID
+
+<br>
+
+HOD → HOD ID
+
+<br>
+
+Admin → Administrator ID
+
+</div>
+
+
+<div class="contact">
+
+DIET Support:
+9049493679 &nbsp; | &nbsp; 9049493678
+
+</div>
+
+
+</div>
+
+
+<script>
+
+"use strict";
+
+
+const form =
+    document.getElementById(
+        "loginForm"
+    );
+
+
+const button =
+    document.getElementById(
+        "loginButton"
+    );
+
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+function showMessage(
+    text,
+    success
+) {
+
+    message.textContent =
+        text;
+
+    message.style.color =
+        success
+            ? "#4ade80"
+            : "#f87171";
+}
+
+
+function normalizeRole(
+    role
+) {
+
+    if (!role) {
+
+        return "";
+    }
+
+
+    const value =
+        String(role)
+            .trim()
+            .toUpperCase();
+
+
+    if (
+        value === "TEACHER" ||
+        value === "FACULTY"
+    ) {
+
+        return "FACULTY";
+    }
+
+
+    if (value === "STUDENT") {
+
+        return "STUDENT";
+    }
+
+
+    if (value === "HOD") {
+
+        return "HOD";
+    }
+
+
+    if (
+        value === "ADMIN" ||
+        value === "ADMINISTRATOR"
+    ) {
+
+        return "ADMIN";
+    }
+
+
+    return value;
+}
+
+
+function getPortal(
+    role
+) {
+
+    switch (
+        normalizeRole(role)
+    ) {
+
+        case "STUDENT":
+
+            return "/student.html";
+
+
+        case "FACULTY":
+
+            return "/faculty.html";
+
+
+        case "HOD":
+
+            return "/hod.html";
+
+
+        case "ADMIN":
+
+            return "/admin-dashboard.html";
+
+
+        default:
+
+            return null;
+    }
+}
+
+
+form.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const selectedRole =
+            normalizeRole(
+                document.getElementById(
+                    "role"
+                ).value
+            );
+
+
+        const id =
+            document.getElementById(
+                "id"
+            ).value.trim();
+
+
+        const password =
+            document.getElementById(
+                "password"
+            ).value;
+
+
+        if (!selectedRole) {
+
+            showMessage(
+                "Please select a portal.",
+                false
+            );
+
+            return;
+        }
+
+
+        if (!id) {
+
+            showMessage(
+                "Please enter your ID.",
+                false
+            );
+
+            return;
+        }
+
+
+        if (!password) {
+
+            showMessage(
+                "Please enter your password.",
+                false
+            );
+
+            return;
+        }
+
+
+        button.disabled =
+            true;
+
+        button.textContent =
+            "AUTHENTICATING...";
+
+
+        showMessage(
+            "Checking your account...",
+            true
+        );
+
+
+        try {
+
+            /*
+             * CORRECT endpoint for YOUR project.
+             *
+             * AuthController:
+             *
+             * @RequestMapping("/api/auth")
+             *
+             * @PostMapping("/login")
+             *
+             * = /api/auth/login
+             */
+
+            const response =
+                await fetch(
+                    "/api/auth/login",
+                    {
+
+                        method:
+                            "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+                            "Accept":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                id:
+                                    id,
+
+                                password:
+                                    password
+
+                            })
+                    }
+                );
+
+
+            const text =
+                await response.text();
+
+
+            let data = null;
+
+
+            try {
+
+                data =
+                    JSON.parse(text);
+
+            } catch {
+
+                data = null;
+            }
+
+
+            if (!response.ok) {
+
+                throw new Error(
+
+                    data &&
+                    data.message
+
+                        ? data.message
+
+                        : (
+                            text ||
+                            "Invalid ID or password."
+                        )
+                );
+            }
+
+
+            if (
+                !data ||
+                data.success !== true
+            ) {
+
+                throw new Error(
+
+                    data &&
+                    data.message
+
+                        ? data.message
+
+                        : "Login failed."
+                );
+            }
+
+
+            /*
+             * AuthController returns the user
+             * fields directly.
+             */
+
+            const actualRole =
+                normalizeRole(
+                    data.role
+                );
+
+
+            if (!actualRole) {
+
+                throw new Error(
+                    "Your account has no valid role."
+                );
+            }
+
+
+            /*
+             * Make sure selected portal and
+             * actual account role match.
+             */
+
+            if (
+                actualRole !==
+                selectedRole
+            ) {
+
+                throw new Error(
+                    "This account belongs to the " +
+                    actualRole +
+                    " portal."
+                );
+            }
+
+
+            /*
+             * Build one standard user object.
+             */
+
+            const user = {
+
+                id:
+                    data.id || id,
+
+                name:
+                    data.name || "",
+
+                role:
+                    actualRole,
+
+                department:
+                    data.department || "",
+
+                designation:
+                    data.designation || "",
+
+                email:
+                    data.email || "",
+
+                profilePhoto:
+                    data.profilePhoto || "",
+
+                registrationNumber:
+                    data.registrationNumber || id
+
+            };
+
+
+            const userJson =
+                JSON.stringify(
+                    user
+                );
+
+
+            /*
+             * Store session.
+             */
+
+            sessionStorage.setItem(
+                "authenticatedUser",
+                userJson
+            );
+
+
+            sessionStorage.setItem(
+                "attendanceUser",
+                userJson
+            );
+
+
+            localStorage.setItem(
+                "authenticatedUser",
+                userJson
+            );
+
+
+            localStorage.setItem(
+                "attendanceUser",
+                userJson
+            );
+
+
+            localStorage.setItem(
+                "userId",
+                user.id
+            );
+
+
+            localStorage.setItem(
+                "userName",
+                user.name
+            );
+
+
+            localStorage.setItem(
+                "userRole",
+                user.role
+            );
+
+
+            localStorage.setItem(
+                "userDepartment",
+                user.department
+            );
+
+
+            localStorage.setItem(
+                "registrationNumber",
+                user.registrationNumber
+            );
+
+
+            showMessage(
+                "Login successful. Opening your portal...",
+                true
+            );
+
+
+            const destination =
+                getPortal(
+                    actualRole
+                );
+
+
+            if (!destination) {
+
+                throw new Error(
+                    "Portal not configured."
+                );
+            }
+
+
+            setTimeout(
+                function() {
+
+                    window.location.href =
+                        destination;
+
+                },
+                400
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "LOGIN ERROR:",
+                error
+            );
+
+
+            showMessage(
+                error.message ||
+                "Unable to login.",
+                false
+            );
+
+
+            button.disabled =
+                false;
+
+            button.textContent =
+                "LOGIN TO PORTAL →";
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

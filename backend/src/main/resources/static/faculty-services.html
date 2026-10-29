@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>DIET AI | Faculty Services</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+
+    margin:0;
+
+    min-height:100vh;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color:#10204a;
+
+    background:
+    linear-gradient(
+        rgba(2,20,50,.43),
+        rgba(2,20,50,.61)
+    ),
+    url(
+        "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2400&q=95"
+    )
+    center/cover fixed no-repeat;
+}
+
+.header{
+
+    min-height:72px;
+
+    padding:12px 30px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    background:
+        rgba(3,25,65,.94);
+
+    color:white;
+}
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+.logo{
+
+    width:46px;
+    height:46px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #06b6d4
+        );
+
+    font-size:11px;
+    font-weight:900;
+}
+
+.brand h1{
+
+    margin:0;
+    font-size:18px;
+}
+
+.brand p{
+
+    margin:3px 0 0;
+
+    color:#bfdbfe;
+
+    font-size:9px;
+}
+
+.header button{
+
+    border:0;
+
+    border-radius:9px;
+
+    padding:10px 14px;
+
+    margin-left:5px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    color:white;
+
+    cursor:pointer;
+
+    font-weight:800;
+}
+
+.container{
+
+    max-width:1350px;
+
+    margin:auto;
+
+    padding:30px;
+}
+
+.hero{
+
+    padding:28px;
+
+    border-radius:22px;
+
+    background:
+        rgba(255,255,255,.95);
+}
+
+.hero h2{
+
+    margin:0;
+
+    font-size:28px;
+}
+
+.hero p{
+
+    color:#64748b;
+}
+
+.content{
+
+    margin-top:20px;
+
+    padding:25px;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.96);
+
+    box-shadow:
+        0 15px 40px
+        rgba(0,0,0,.14);
+}
+
+.stat-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:14px;
+
+    margin-top:15px;
+}
+
+.stat{
+
+    padding:18px;
+
+    border-radius:14px;
+
+    background:#f8fafc;
+}
+
+.stat-label{
+
+    color:#64748b;
+
+    font-size:9px;
+
+    font-weight:900;
+}
+
+.stat-value{
+
+    margin-top:6px;
+
+    font-size:24px;
+
+    font-weight:900;
+}
+
+.student{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:14px 0;
+
+    border-bottom:
+        1px solid #e2e8f0;
+}
+
+.student-name{
+
+    font-weight:800;
+}
+
+.student-id{
+
+    color:#64748b;
+
+    font-size:10px;
+}
+
+.present{
+
+    color:#15803d;
+
+    font-weight:900;
+}
+
+.low{
+
+    color:#dc2626;
+
+    font-weight:900;
+}
+
+.subject{
+
+    padding:14px 0;
+
+    border-bottom:
+        1px solid #e2e8f0;
+}
+
+.subject strong{
+
+    display:block;
+}
+
+.subject span{
+
+    color:#64748b;
+
+    font-size:10px;
+}
+
+@media(max-width:700px){
+
+    .container{
+        padding:18px 15px;
+    }
+
+    .stat-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+<div class="brand">
+
+    <div class="logo">
+        DIET
+    </div>
+
+    <div>
+
+        <h1>
+            DIET Attendance AI
+        </h1>
+
+        <p>
+            FACULTY SERVICES
+        </p>
+
+    </div>
+
+</div>
+
+
+<div>
+
+    <button onclick="goPortal()">
+        Faculty Portal
+    </button>
+
+    <button onclick="logout()">
+        Logout
+    </button>
+
+</div>
+
+</header>
+
+
+<main class="container">
+
+
+<section class="hero">
+
+    <h2 id="title">
+        Faculty Services
+    </h2>
+
+    <p id="subtitle">
+        Loading faculty information...
+    </p>
+
+</section>
+
+
+<section
+    id="content"
+    class="content"
+>
+
+</section>
+
+
+</main>
+
+
+<script>
+
+"use strict";
+
+
+function getUser(){
+
+    const raw =
+        sessionStorage.getItem("authenticatedUser") ||
+        localStorage.getItem("authenticatedUser") ||
+        sessionStorage.getItem("attendanceUser") ||
+        localStorage.getItem("attendanceUser");
+
+    if(!raw){
+        return null;
+    }
+
+    try{
+        return JSON.parse(raw);
+    }catch{
+        return null;
+    }
+
+}
+
+
+const user =
+    getUser();
+
+
+if(!user){
+
+    window.location.href =
+        "/login.html";
+
+}
+
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const section =
+    params.get("section") ||
+    "home";
+
+
+const department =
+    user?.department ||
+    "IT";
+
+
+if(user){
+
+    document.getElementById(
+        "title"
+    ).textContent =
+        "Welcome, " +
+        (
+            user.name ||
+            "Faculty"
+        );
+
+    document.getElementById(
+        "subtitle"
+    ).textContent =
+        department +
+        " · Faculty Services";
+
+}
+
+
+/* =====================================
+   ATTENDANCE
+===================================== */
+
+function renderAttendance(){
+
+    document.getElementById(
+        "content"
+    ).innerHTML = `
+
+        <h2>
+            Mark Attendance
+        </h2>
+
+        <p>
+            Department:
+            <strong>
+                ${escapeHtml(department)}
+            </strong>
+        </p>
+
+        <div class="stat-grid">
+
+            <div class="stat">
+
+                <div class="stat-label">
+                    TODAY'S CLASSES
+                </div>
+
+                <div class="stat-value">
+                    6
+                </div>
+
+            </div>
+
+            <div class="stat">
+
+                <div class="stat-label">
+                    ATTENDANCE MARKED
+                </div>
+
+                <div class="stat-value">
+                    4
+                </div>
+
+            </div>
+
+            <div class="stat">
+
+                <div class="stat-label">
+                    PENDING
+                </div>
+
+                <div class="stat-value">
+                    2
+                </div>
+
+            </div>
+
+        </div>
+
+        <br>
+
+        <div class="subject">
+
+            <strong>
+                Period 1 — Programming
+            </strong>
+
+            <span>
+                9:00 AM – 9:50 AM
+            </span>
+
+        </div>
+
+        <div class="subject">
+
+            <strong>
+                Period 2 — Database Systems
+            </strong>
+
+            <span>
+                9:50 AM – 10:40 AM
+            </span>
+
+        </div>
+
+        <div class="subject">
+
+            <strong>
+                Period 3 — Computer Networks
+            </strong>
+
+            <span>
+                10:50 AM – 11:40 AM
+            </span>
+
+        </div>
+
+        <br>
+
+        <p>
+            Attendance marking interface is ready.
+            Connect this to the institute's
+            authorized attendance source when
+            real records are available.
+        </p>
+
+    `;
+
+}
+
+
+/* =====================================
+   STUDENTS
+===================================== */
+
+function renderStudents(){
+
+    document.getElementById(
+        "content"
+    ).innerHTML = `
+
+        <h2>
+            Department Students
+        </h2>
+
+        <p>
+            Department:
+            <strong>
+                ${escapeHtml(department)}
+            </strong>
+        </p>
+
+        <div class="student">
+
+            <div>
+                <div class="student-name">
+                    Student 01
+                </div>
+
+                <div class="student-id">
+                    268T1A1293
+                </div>
+            </div>
+
+            <div class="present">
+                82%
+            </div>
+
+        </div>
+
+
+        <div class="student">
+
+            <div>
+                <div class="student-name">
+                    Student 02
+                </div>
+
+                <div class="student-id">
+                    268T1A1294
+                </div>
+            </div>
+
+            <div class="present">
+                88%
+            </div>
+
+        </div>
+
+
+        <div class="student">
+
+            <div>
+                <div class="student-name">
+                    Student 03
+                </div>
+
+                <div class="student-id">
+                    268T1A1295
+                </div>
+            </div>
+
+            <div class="low">
+                68%
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================
+   REPORTS
+===================================== */
+
+function renderReports(){
+
+    document.getElementById(
+        "content"
+    ).innerHTML = `
+
+        <h2>
+            Faculty Reports
+        </h2>
+
+        <p>
+            Attendance overview for
+            <strong>
+                ${escapeHtml(department)}
+            </strong>
+        </p>
+
+        <div class="stat-grid">
+
+            <div class="stat">
+
+                <div class="stat-label">
+                    STUDENTS
+                </div>
+
+                <div class="stat-value">
+                    120
+                </div>
+
+            </div>
+
+            <div class="stat">
+
+                <div class="stat-label">
+                    AVERAGE ATTENDANCE
+                </div>
+
+                <div class="stat-value">
+                    82%
+                </div>
+
+            </div>
+
+            <div class="stat">
+
+                <div class="stat-label">
+                    LOW ATTENDANCE
+                </div>
+
+                <div class="stat-value">
+                    14
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================
+   HOME SERVICES
+===================================== */
+
+function renderHome(){
+
+    document.getElementById(
+        "content"
+    ).innerHTML = `
+
+        <h2>
+            Faculty Services
+        </h2>
+
+        <p>
+            Select a service from the
+            Faculty Portal.
+        </p>
+
+        <div class="stat-grid">
+
+            <div class="stat">
+                <div class="stat-label">
+                    DEPARTMENT
+                </div>
+
+                <div class="stat-value">
+                    ${escapeHtml(department)}
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-label">
+                    COLLEGE HOURS
+                </div>
+
+                <div class="stat-value">
+                    9:00–4:30
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-label">
+                    FACULTY ID
+                </div>
+
+                <div class="stat-value">
+                    ${escapeHtml(
+                        user?.id ||
+                        "—"
+                    )}
+                </div>
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =====================================
+   SELECT SECTION
+===================================== */
+
+if(section === "attendance"){
+
+    renderAttendance();
+
+}
+else if(section === "students"){
+
+    renderStudents();
+
+}
+else if(section === "reports"){
+
+    renderReports();
+
+}
+else{
+
+    renderHome();
+
+}
+
+
+/* =====================================
+   NAVIGATION
+===================================== */
+
+function goPortal(){
+
+    window.location.href =
+        "/faculty.html";
+
+}
+
+
+function logout(){
+
+    sessionStorage.clear();
+
+    localStorage.clear();
+
+    window.location.href =
+        "/login.html";
+
+}
+
+
+function escapeHtml(value){
+
+    return String(value)
+
+        .replace(/&/g,"&amp;")
+
+        .replace(/</g,"&lt;")
+
+        .replace(/>/g,"&gt;")
+
+        .replace(/"/g,"&quot;")
+
+        .replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+
+</body>
+</html>

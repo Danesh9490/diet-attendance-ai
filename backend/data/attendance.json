@@ -1,0 +1,254 @@
+[
+  {
+    "id": "1787839673815",
+    "date": "2026-08-27",
+    "studentId": "268T1A1293",
+    "studentName": "Arun Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Programming",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:37:55.716401600"
+
+  },
+  {
+    "id": "1787839678728",
+    "date": "2026-08-27",
+    "studentId": "268T1A1294",
+    "studentName": "Priya Sharma",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Programming",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:37:58.728226200"
+
+  },
+  {
+    "id": "1787839680258",
+    "date": "2026-08-27",
+    "studentId": "268T1A1295",
+    "studentName": "Rahul Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Programming",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:00.258761800"
+
+  },
+  {
+    "id": "1787839684140",
+    "date": "2026-08-27",
+    "studentId": "268T1A1293",
+    "studentName": "Arun Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Database Systems",
+    "status": "ABSENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:04.140518100"
+
+  },
+  {
+    "id": "1787839685841",
+    "date": "2026-08-27",
+    "studentId": "268T1A1294",
+    "studentName": "Priya Sharma",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Database Systems",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:05.841673800"
+
+  },
+  {
+    "id": "1787839688305",
+    "date": "2026-08-27",
+    "studentId": "268T1A1295",
+    "studentName": "Rahul Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Database Systems",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:08.305263600"
+
+  },
+  {
+    "id": "1787839692353",
+    "date": "2026-08-27",
+    "studentId": "268T1A1293",
+    "studentName": "Arun Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Web Technologies",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:12.353165300"
+
+  },
+  {
+    "id": "1787839693457",
+    "date": "2026-08-27",
+    "studentId": "268T1A1294",
+    "studentName": "Priya Sharma",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Web Technologies",
+    "status": "ABSENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:13.457161200"
+
+  },
+  {
+    "id": "1787839694224",
+    "date": "2026-08-27",
+    "studentId": "268T1A1295",
+    "studentName": "Rahul Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Web Technologies",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:14.225102"
+
+  },
+  {
+    "id": "1787839698553",
+    "date": "2026-08-27",
+    "studentId": "268T1A1293",
+    "studentName": "Arun Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Computer Networks",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:18.553013400"
+
+  },
+  {
+    "id": "1787839699193",
+    "date": "2026-08-27",
+    "studentId": "268T1A1294",
+    "studentName": "Priya Sharma",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Computer Networks",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:19.193237"
+
+  },
+  {
+    "id": "1787839699916",
+    "date": "2026-08-27",
+    "studentId": "268T1A1295",
+    "studentName": "Rahul Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Computer Networks",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:19.916372200"
+
+  },
+  {
+    "id": "1787839703241",
+    "date": "2026-08-27",
+    "studentId": "268T1A1293",
+    "studentName": "Arun Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Laboratory",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:23.241150500"
+
+  },
+  {
+    "id": "1787839703881",
+    "date": "2026-08-27",
+    "studentId": "268T1A1294",
+    "studentName": "Priya Sharma",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Laboratory",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:23.881686600"
+
+  },
+  {
+    "id": "1787839704580",
+    "date": "2026-08-27",
+    "studentId": "268T1A1295",
+    "studentName": "Rahul Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Laboratory",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:24.580168600"
+
+  },
+  {
+    "id": "1787839708162",
+    "date": "2026-08-27",
+    "studentId": "268T1A1293",
+    "studentName": "Arun Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Project",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:28.162153100"
+
+  },
+  {
+    "id": "1787839709043",
+    "date": "2026-08-27",
+    "studentId": "268T1A1294",
+    "studentName": "Priya Sharma",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Project",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:29.043535300"
+
+  },
+  {
+    "id": "1787839709860",
+    "date": "2026-08-27",
+    "studentId": "268T1A1295",
+    "studentName": "Rahul Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Project",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-08-27T19:38:29.860304500"
+
+  },
+  {
+    "id": "1788627131214",
+    "date": "2026-09-05",
+    "studentId": "268T1A1293",
+    "studentName": "Arun Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Programming",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-09-05T22:22:12.780886200"
+
+  },
+  {
+    "id": "1788627134187",
+    "date": "2026-09-05",
+    "studentId": "268T1A1294",
+    "studentName": "Priya Sharma",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Programming",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-09-05T22:22:14.187917400"
+
+  },
+  {
+    "id": "1788627135350",
+    "date": "2026-09-05",
+    "studentId": "268T1A1295",
+    "studentName": "Rahul Kumar",
+    "department": "INFORMATION TECHNOLOGY",
+    "subject": "Programming",
+    "status": "PRESENT",
+    "markedBy": "268T1A1296",
+    "markedAt": "2026-09-05T22:22:15.350937300"
+
+  }
+]

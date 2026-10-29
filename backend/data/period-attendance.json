@@ -1,0 +1,16 @@
+[ {
+  "id" : "e81c1ba5-26b3-492f-94f2-87218028af6e",
+  "studentId" : "268T1A1293",
+  "studentName" : "dj",
+  "facultyId" : "268T1A1296",
+  "facultyName" : "dj",
+  "department" : "IT",
+  "subject" : "Mathematics",
+  "period" : 1,
+  "date" : "2026-09-05",
+  "startTime" : "09:00",
+  "endTime" : "09:50",
+  "status" : "PRESENT",
+  "room" : "Room 101",
+  "markedAt" : "2026-09-05 22:01:23"
+} ]

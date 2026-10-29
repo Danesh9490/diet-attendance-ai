@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>DIET Attendance AI</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+margin:0;
+font-family:"Segoe UI",Arial,sans-serif;
+color:white;
+background:#020617;
+}
+
+.hero{
+min-height:100vh;
+position:relative;
+display:flex;
+align-items:center;
+overflow:hidden;
+}
+
+.hero-bg{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+opacity:.35;
+animation:zoom 18s infinite alternate;
+}
+
+@keyframes zoom{
+from{transform:scale(1)}
+to{transform:scale(1.08)}
+}
+
+.overlay{
+position:absolute;
+inset:0;
+background:
+linear-gradient(
+135deg,
+rgba(2,6,23,.94),
+rgba(15,23,42,.78),
+rgba(23,37,84,.9)
+);
+}
+
+header{
+position:absolute;
+top:0;
+left:0;
+right:0;
+z-index:10;
+padding:18px 5%;
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:rgba(2,6,23,.45);
+backdrop-filter:blur(15px);
+border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.brand{
+font-size:20px;
+font-weight:900;
+}
+
+.brand span{
+color:#60a5fa;
+}
+
+nav{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+}
+
+nav a{
+color:#cbd5e1;
+text-decoration:none;
+font-size:12px;
+font-weight:600;
+}
+
+nav a:hover{
+color:white;
+}
+
+.content{
+position:relative;
+z-index:2;
+width:90%;
+max-width:1200px;
+margin:auto;
+padding-top:100px;
+}
+
+.badge{
+display:inline-block;
+padding:8px 13px;
+border-radius:30px;
+background:rgba(37,99,235,.15);
+border:1px solid rgba(96,165,250,.25);
+color:#93c5fd;
+font-size:10px;
+font-weight:800;
+letter-spacing:1px;
+}
+
+h1{
+font-size:clamp(42px,7vw,82px);
+line-height:1;
+margin:22px 0 15px;
+max-width:850px;
+}
+
+h1 span{
+color:#60a5fa;
+}
+
+.hero-text{
+max-width:700px;
+color:#94a3b8;
+font-size:16px;
+line-height:1.8;
+}
+
+.buttons{
+display:flex;
+gap:12px;
+margin-top:28px;
+flex-wrap:wrap;
+}
+
+.btn{
+padding:13px 20px;
+border-radius:10px;
+text-decoration:none;
+font-size:12px;
+font-weight:800;
+}
+
+.primary{
+background:#2563eb;
+color:white;
+}
+
+.secondary{
+border:1px solid rgba(255,255,255,.15);
+background:rgba(255,255,255,.05);
+color:white;
+}
+
+section{
+padding:90px 5%;
+}
+
+.section-inner{
+max-width:1200px;
+margin:auto;
+}
+
+.section-title{
+font-size:35px;
+margin:0 0 12px;
+}
+
+.section-text{
+color:#94a3b8;
+max-width:800px;
+line-height:1.8;
+}
+
+.features{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-top:30px;
+}
+
+.feature{
+padding:25px;
+border-radius:18px;
+background:#0f172a;
+border:1px solid rgba(255,255,255,.08);
+}
+
+.feature-icon{
+font-size:28px;
+}
+
+.feature h3{
+font-size:16px;
+}
+
+.feature p{
+color:#94a3b8;
+font-size:12px;
+line-height:1.7;
+}
+
+.roles{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-top:30px;
+}
+
+.role{
+padding:25px;
+border-radius:18px;
+background:
+linear-gradient(
+145deg,
+#0f172a,
+#172554
+);
+border:1px solid rgba(255,255,255,.08);
+}
+
+.role h3{
+margin-top:10px;
+}
+
+.role p{
+color:#94a3b8;
+font-size:12px;
+line-height:1.7;
+}
+
+.contact{
+background:#0f172a;
+}
+
+.contact-box{
+padding:30px;
+border-radius:20px;
+background:#020617;
+border:1px solid rgba(255,255,255,.1);
+}
+
+.phone{
+color:#60a5fa;
+font-size:20px;
+font-weight:800;
+}
+
+footer{
+padding:30px 5%;
+text-align:center;
+background:#020617;
+color:#64748b;
+font-size:11px;
+}
+
+@media(max-width:900px){
+
+.features,
+.roles{
+grid-template-columns:1fr 1fr;
+}
+
+}
+
+@media(max-width:600px){
+
+header{
+align-items:flex-start;
+gap:15px;
+flex-direction:column;
+}
+
+.features,
+.roles{
+grid-template-columns:1fr;
+}
+
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="hero">
+
+<img
+class="hero-bg"
+src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2400&q=90"
+alt=""
+>
+
+<div class="overlay"></div>
+
+<header>
+
+<div class="brand">
+DIET <span>AI</span>
+</div>
+
+<nav>
+<a href="/">Home</a>
+<a href="#about">About</a>
+<a href="#features">Features</a>
+<a href="#roles">Portals</a>
+<a href="#contact">Contact</a>
+<a href="/login.html">Login</a>
+</nav>
+
+</header>
+
+<div class="content">
+
+<div class="badge">
+AI-POWERED ACADEMIC MANAGEMENT
+</div>
+
+<h1>
+Smart Institute
+<span>Attendance AI</span>
+</h1>
+
+<p class="hero-text">
+Dhanesh Institute of Engineering and Technology's
+smart academic platform for students, faculty,
+HODs and administrators.
+</p>
+
+<div class="buttons">
+
+<a class="btn primary"
+href="/login.html">
+LOGIN TO PORTAL
+</a>
+
+<a class="btn secondary"
+href="#about">
+ABOUT DIET
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<section id="about">
+
+<div class="section-inner">
+
+<h2 class="section-title">
+About DIET Attendance AI
+</h2>
+
+<p class="section-text">
+
+DIET Attendance AI is designed to provide a unified
+academic management experience for students, faculty,
+Heads of Departments and administrators. The platform
+organizes academic information department-wise and
+provides role-specific dashboards for attendance,
+subjects, timetables, reports and academic monitoring.
+
+The system is designed to connect with an authorized
+online institute directory so that institutional
+information can be managed without requiring a local
+database in the application.
+
+</p>
+
+</div>
+
+</section>
+
+
+<section id="features">
+
+<div class="section-inner">
+
+<h2 class="section-title">
+Platform Features
+</h2>
+
+<p class="section-text">
+A single secure interface for the major academic
+workflows of the institute.
+</p>
+
+<div class="features">
+
+<div class="feature">
+<div class="feature-icon">🎓</div>
+<h3>Student Management</h3>
+<p>
+Student profiles, attendance, subjects,
+timetables and academic information.
+</p>
+</div>
+
+<div class="feature">
+<div class="feature-icon">👨‍🏫</div>
+<h3>Faculty Management</h3>
+<p>
+Faculty classes, attendance activities,
+students and reports.
+</p>
+</div>
+
+<div class="feature">
+<div class="feature-icon">🏢</div>
+<h3>Department Management</h3>
+<p>
+HOD-level department information and
+attendance analytics.
+</p>
+</div>
+
+<div class="feature">
+<div class="feature-icon">✦</div>
+<h3>AI Analytics</h3>
+<p>
+AI can analyze authorized academic information
+and provide useful insights.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="roles">
+
+<div class="section-inner">
+
+<h2 class="section-title">
+Role-Based Portals
+</h2>
+
+<div class="roles">
+
+<div class="role">
+<h3>👨‍🎓 Student</h3>
+<p>
+Personal profile, attendance, subjects,
+timetable, notices and academic summary.
+</p>
+</div>
+
+<div class="role">
+<h3>👨‍🏫 Faculty</h3>
+<p>
+Classes, attendance, students, timetable,
+reports and faculty AI assistance.
+</p>
+</div>
+
+<div class="role">
+<h3>👔 HOD</h3>
+<p>
+Department students, faculty, analytics,
+low attendance and department reports.
+</p>
+</div>
+
+<div class="role">
+<h3>🛡 Admin</h3>
+<p>
+Institute management, departments, users,
+attendance, reports and system administration.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="contact" class="contact">
+
+<div class="section-inner">
+
+<div class="contact-box">
+
+<h2 class="section-title">
+Contact DIET
+</h2>
+
+<p class="section-text">
+For institute attendance system support:
+</p>
+
+<p class="phone">
+9049493679
+</p>
+
+<p class="phone">
+9049493678
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<footer>
+
+Dhanesh Institute of Engineering and Technology
+
+<br><br>
+
+DIET Smart Attendance AI
+
+</footer>
+
+</body>
+
+</html>

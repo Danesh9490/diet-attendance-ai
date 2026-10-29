@@ -1,0 +1,2580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+>
+
+<title>
+    DIET AI | Administrator Portal
+</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    margin:0;
+
+    min-height:100vh;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color:#10204a;
+
+    background:
+
+        linear-gradient(
+            rgba(2,20,50,.38),
+            rgba(2,20,50,.58)
+        ),
+
+        url(
+            "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2400&q=95"
+        )
+
+        center/cover fixed no-repeat;
+}
+
+
+.header{
+
+    min-height:72px;
+
+    padding:12px 30px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    background:
+        rgba(3,25,65,.95);
+
+    color:white;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:100;
+
+    backdrop-filter:blur(15px);
+}
+
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+}
+
+
+.logo{
+
+    width:46px;
+
+    height:46px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #06b6d4
+        );
+
+    font-size:11px;
+
+    font-weight:900;
+}
+
+
+.brand h1{
+
+    margin:0;
+
+    font-size:18px;
+}
+
+
+.brand p{
+
+    margin:3px 0 0;
+
+    color:#bfdbfe;
+
+    font-size:9px;
+
+    font-weight:700;
+}
+
+
+.header button{
+
+    border:0;
+
+    border-radius:9px;
+
+    padding:10px 14px;
+
+    margin-left:5px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    color:white;
+
+    cursor:pointer;
+
+    font-weight:800;
+}
+
+
+.header button:hover{
+
+    background:
+        rgba(255,255,255,.22);
+
+}
+
+
+.container{
+
+    max-width:1400px;
+
+    margin:auto;
+
+    padding:30px;
+}
+
+
+.hero,
+.stat,
+.content{
+
+    background:
+        rgba(255,255,255,.97);
+
+    box-shadow:
+        0 15px 45px
+        rgba(0,0,0,.15);
+
+    border-radius:20px;
+}
+
+
+.hero{
+
+    padding:30px;
+}
+
+
+.hero h2{
+
+    margin:0;
+
+    font-size:30px;
+}
+
+
+.hero p{
+
+    color:#64748b;
+}
+
+
+.stats{
+
+    margin-top:18px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:14px;
+}
+
+
+.stat{
+
+    padding:20px;
+}
+
+
+.label{
+
+    color:#64748b;
+
+    font-size:9px;
+
+    font-weight:900;
+}
+
+
+.value{
+
+    margin-top:7px;
+
+    font-size:27px;
+
+    font-weight:900;
+}
+
+
+.actions{
+
+    margin-top:20px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:14px;
+}
+
+
+.action{
+
+    min-height:140px;
+
+    padding:20px;
+
+    border:0;
+
+    border-radius:17px;
+
+    background:
+        rgba(255,255,255,.97);
+
+    color:#10204a;
+
+    text-align:left;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 12px 35px
+        rgba(0,0,0,.12);
+
+    transition:.2s;
+}
+
+
+.action:hover{
+
+    transform:
+        translateY(-4px);
+
+}
+
+
+.icon{
+
+    font-size:28px;
+}
+
+
+.title{
+
+    margin-top:10px;
+
+    font-size:15px;
+
+    font-weight:900;
+}
+
+
+.text{
+
+    margin-top:5px;
+
+    color:#64748b;
+
+    font-size:10px;
+
+    line-height:1.5;
+}
+
+
+.ai{
+
+    margin-top:20px;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(15,23,42,.96),
+            rgba(30,64,175,.94)
+        );
+
+    color:white;
+}
+
+
+.ai p{
+
+    color:#bfdbfe;
+}
+
+
+.ai button{
+
+    border:0;
+
+    border-radius:10px;
+
+    padding:13px 20px;
+
+    background:#2563eb;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-weight:900;
+}
+
+
+.ai button:disabled{
+
+    opacity:.6;
+
+    cursor:wait;
+}
+
+
+.result{
+
+    margin-top:18px;
+}
+
+
+.airesult{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:#f8fafc;
+
+    color:#10204a;
+}
+
+
+.content{
+
+    margin-top:20px;
+
+    padding:25px;
+}
+
+
+.tablewrap{
+
+    overflow:auto;
+}
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+}
+
+
+th{
+
+    padding:13px;
+
+    text-align:left;
+
+    background:#e2e8f0;
+
+    font-size:11px;
+}
+
+
+td{
+
+    padding:13px;
+
+    border-bottom:
+        1px solid #e2e8f0;
+
+    font-size:11px;
+}
+
+
+.badge{
+
+    display:inline-block;
+
+    padding:5px 9px;
+
+    border-radius:20px;
+
+    font-size:9px;
+
+    font-weight:900;
+}
+
+
+.good{
+
+    background:#dcfce7;
+
+    color:#15803d;
+}
+
+
+.warning{
+
+    background:#fef3c7;
+
+    color:#a16207;
+}
+
+
+.danger{
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+}
+
+
+.info{
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+}
+
+
+.notice{
+
+    padding:14px;
+
+    margin:10px 0;
+
+    border-radius:12px;
+
+    background:#f8fafc;
+
+    border-left:
+        4px solid #2563eb;
+}
+
+
+.toolbar{
+
+    display:flex;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+
+    margin:12px 0;
+}
+
+
+.toolbar button{
+
+    border:0;
+
+    border-radius:10px;
+
+    padding:11px 16px;
+
+    background:#2563eb;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-weight:900;
+}
+
+
+@media(max-width:1000px){
+
+    .stats,
+    .actions{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    .header{
+
+        padding:
+            12px 15px;
+
+    }
+
+    .header-actions{
+
+        display:none;
+
+    }
+
+    .container{
+
+        padding:
+            18px 15px;
+
+    }
+
+    .stats,
+    .actions{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .hero h2{
+
+        font-size:24px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="brand">
+
+        <div class="logo">
+            DIET
+        </div>
+
+        <div>
+
+            <h1>
+                DIET Attendance AI
+            </h1>
+
+            <p>
+                ADMINISTRATOR PORTAL
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="header-actions">
+
+        <button onclick="goHome()">
+            Home
+        </button>
+
+        <button onclick="openTimetable()">
+            Timetable
+        </button>
+
+        <button onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+<section class="hero">
+
+    <h2 id="welcome">
+        Administrator Portal
+    </h2>
+
+    <p>
+        Institute-wide academic,
+        attendance and account management.
+    </p>
+
+</section>
+
+
+<section class="stats">
+
+
+    <div class="stat">
+
+        <div class="label">
+            STUDENTS
+        </div>
+
+        <div
+            class="value"
+            id="studentsCount"
+        >
+            —
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="label">
+            FACULTY
+        </div>
+
+        <div
+            class="value"
+            id="facultyCount"
+        >
+            —
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="label">
+            HODs
+        </div>
+
+        <div
+            class="value"
+            id="hodCount"
+        >
+            —
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="label">
+            DEPARTMENTS
+        </div>
+
+        <div class="value">
+            6
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<section class="actions">
+
+
+<button
+    class="action"
+    onclick="openStudents()"
+>
+
+    <div class="icon">
+        👨‍🎓
+    </div>
+
+    <div class="title">
+        Students
+    </div>
+
+    <div class="text">
+        Live student directory.
+    </div>
+
+</button>
+
+
+<button
+    class="action"
+    onclick="openFaculty()"
+>
+
+    <div class="icon">
+        👨‍🏫
+    </div>
+
+    <div class="title">
+        Faculty
+    </div>
+
+    <div class="text">
+        Live faculty directory.
+    </div>
+
+</button>
+
+
+<button
+    class="action"
+    onclick="openHods()"
+>
+
+    <div class="icon">
+        👤
+    </div>
+
+    <div class="title">
+        HODs
+    </div>
+
+    <div class="text">
+        Department heads.
+    </div>
+
+</button>
+
+
+<button
+    class="action"
+    onclick="openDepartments()"
+>
+
+    <div class="icon">
+        🏢
+    </div>
+
+    <div class="title">
+        Departments
+    </div>
+
+    <div class="text">
+        Department attendance.
+    </div>
+
+</button>
+
+
+<button
+    class="action"
+    onclick="openAttendance()"
+>
+
+    <div class="icon">
+        📊
+    </div>
+
+    <div class="title">
+        Attendance
+    </div>
+
+    <div class="text">
+        All recorded attendance.
+    </div>
+
+</button>
+
+
+<button
+    class="action"
+    onclick="openReports()"
+>
+
+    <div class="icon">
+        📑
+    </div>
+
+    <div class="title">
+        Reports
+    </div>
+
+    <div class="text">
+        Institute attendance report.
+    </div>
+
+</button>
+
+
+<button
+    class="action"
+    onclick="openTimetable()"
+>
+
+    <div class="icon">
+        🗓️
+    </div>
+
+    <div class="title">
+        Timetable
+    </div>
+
+    <div class="text">
+        College timetable.
+    </div>
+
+</button>
+
+
+<button
+    class="action"
+    onclick="openSettings()"
+>
+
+    <div class="icon">
+        ⚙️
+    </div>
+
+    <div class="title">
+        System Settings
+    </div>
+
+    <div class="text">
+        College configuration.
+    </div>
+
+</button>
+
+
+</section>
+
+
+<section class="ai">
+
+    <h2>
+        ✦ AI Administration
+    </h2>
+
+    <p>
+        Analyze current recorded
+        institute attendance.
+    </p>
+
+    <button
+        id="aiButton"
+        onclick="analyzeWithAI()"
+    >
+        ✦ Analyze With AI
+    </button>
+
+    <div
+        id="aiResult"
+        class="result"
+    ></div>
+
+</section>
+
+
+<section
+    id="content"
+    class="content"
+>
+
+    <h2>
+        Institute Overview
+    </h2>
+
+    <p>
+        Select a module above.
+    </p>
+
+</section>
+
+
+</main>
+
+
+<script>
+
+"use strict";
+
+
+const API = "/api";
+
+const LOW = 75;
+
+
+function getUser(){
+
+    try{
+
+        return JSON.parse(
+
+            sessionStorage.getItem(
+                "authenticatedUser"
+            )
+
+            ||
+
+            localStorage.getItem(
+                "authenticatedUser"
+            )
+
+            ||
+
+            sessionStorage.getItem(
+                "attendanceUser"
+            )
+
+            ||
+
+            localStorage.getItem(
+                "attendanceUser"
+            )
+
+            ||
+
+            "null"
+
+        );
+
+    }
+
+    catch(error){
+
+        return null;
+
+    }
+
+}
+
+
+const me =
+    getUser();
+
+
+if(!me){
+
+    location.href =
+        "/login.html";
+
+}
+
+
+document.getElementById(
+    "welcome"
+).textContent =
+    "Welcome, " +
+    (
+        me?.name ||
+        "Administrator"
+    );
+
+
+const content =
+    document.getElementById(
+        "content"
+    );
+
+
+const departments = [
+
+    [
+        "IT",
+        "Information Technology"
+    ],
+
+    [
+        "CSE",
+        "Computer Science and Engineering"
+    ],
+
+    [
+        "ECE",
+        "Electronics and Communication Engineering"
+    ],
+
+    [
+        "EEE",
+        "Electrical and Electronics Engineering"
+    ],
+
+    [
+        "MECH",
+        "Mechanical Engineering"
+    ],
+
+    [
+        "CIVIL",
+        "Civil Engineering"
+    ]
+
+];
+
+
+async function get(url){
+
+    const response =
+        await fetch(url);
+
+
+    if(!response.ok){
+
+        throw new Error(
+            "Request failed: " +
+            response.status
+        );
+
+    }
+
+
+    return response.json();
+
+}
+
+
+function esc(value){
+
+    return String(value ?? "")
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+function recordsFrom(data){
+
+    if(Array.isArray(data))
+        return data;
+
+
+    return (
+
+        data.records ||
+
+        data.attendance ||
+
+        data.data ||
+
+        []
+
+    );
+
+}
+
+
+function peopleFrom(data){
+
+    if(Array.isArray(data))
+        return data;
+
+
+    return (
+
+        data.people ||
+
+        data.users ||
+
+        data.data ||
+
+        []
+
+    );
+
+}
+
+
+function pct(
+    present,
+    total
+){
+
+    return total
+        ? Math.round(
+            present * 100 / total
+        )
+        : 0;
+
+}
+
+
+function scroll(){
+
+    content.scrollIntoView({
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+async function directory(){
+
+    return get(
+        "/api/directory"
+    );
+
+}
+
+
+async function loadStats(){
+
+    try{
+
+        const people =
+            peopleFrom(
+                await directory()
+            );
+
+
+        document.getElementById(
+            "studentsCount"
+        ).textContent =
+
+            people.filter(
+                person =>
+                    String(
+                        person.role
+                    ).toUpperCase()
+                    ===
+                    "STUDENT"
+            ).length;
+
+
+        document.getElementById(
+            "facultyCount"
+        ).textContent =
+
+            people.filter(
+                person =>
+                    String(
+                        person.role
+                    ).toUpperCase()
+                    ===
+                    "FACULTY"
+            ).length;
+
+
+        document.getElementById(
+            "hodCount"
+        ).textContent =
+
+            people.filter(
+                person =>
+                    String(
+                        person.role
+                    ).toUpperCase()
+                    ===
+                    "HOD"
+            ).length;
+
+    }
+
+    catch(error){
+
+        document.getElementById(
+            "studentsCount"
+        ).textContent = "—";
+
+        document.getElementById(
+            "facultyCount"
+        ).textContent = "—";
+
+        document.getElementById(
+            "hodCount"
+        ).textContent = "—";
+
+    }
+
+}
+
+
+async function openStudents(){
+
+    content.innerHTML =
+        "<h2>👨‍🎓 Loading...</h2>";
+
+
+    try{
+
+        const people =
+            peopleFrom(
+                await directory()
+            );
+
+
+        const students =
+            people.filter(
+                person =>
+                    String(
+                        person.role
+                    ).toUpperCase()
+                    ===
+                    "STUDENT"
+            );
+
+
+        content.innerHTML = `
+
+            <h2>
+                👨‍🎓 Student Management
+            </h2>
+
+
+            <div class="toolbar">
+
+                <button
+                    onclick="openStudents()"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+
+            <div class="tablewrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Name</th>
+
+                            <th>Department</th>
+
+                            <th>Email</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            students.map(
+                                student => `
+
+                                <tr>
+
+                                    <td>
+                                        ${esc(
+                                            student.id
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            student.name
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            student.department
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            student.email
+                                        )}
+                                    </td>
+
+                                    <td>
+
+                                        <span
+                                            class="badge good"
+                                        >
+                                            ACTIVE
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+                            `
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+    }
+
+    catch(error){
+
+        content.innerHTML = `
+
+            <h2>
+                Unable to load students
+            </h2>
+
+            <p>
+                ${esc(
+                    error.message
+                )}
+            </p>
+
+        `;
+
+    }
+
+    scroll();
+
+}
+
+
+async function openFaculty(){
+
+    content.innerHTML =
+        "<h2>👨‍🏫 Loading...</h2>";
+
+
+    try{
+
+        const people =
+            peopleFrom(
+                await directory()
+            );
+
+
+        const faculty =
+            people.filter(
+                person =>
+                    String(
+                        person.role
+                    ).toUpperCase()
+                    ===
+                    "FACULTY"
+            );
+
+
+        content.innerHTML = `
+
+            <h2>
+                👨‍🏫 Faculty Management
+            </h2>
+
+
+            <div class="tablewrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Teacher ID
+                            </th>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Designation
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            faculty.map(
+                                person => `
+
+                                <tr>
+
+                                    <td>
+                                        ${esc(
+                                            person.id
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            person.name
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            person.department
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            person.designation ||
+                                            "Faculty"
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            person.email
+                                        )}
+                                    </td>
+
+                                </tr>
+
+                            `
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+    }
+
+    catch(error){
+
+        content.innerHTML = `
+
+            <h2>
+                Unable to load faculty
+            </h2>
+
+            <p>
+                ${esc(
+                    error.message
+                )}
+            </p>
+
+        `;
+
+    }
+
+    scroll();
+
+}
+
+
+async function openHods(){
+
+    content.innerHTML =
+        "<h2>👤 Loading...</h2>";
+
+
+    try{
+
+        const people =
+            peopleFrom(
+                await directory()
+            );
+
+
+        const hods =
+            people.filter(
+                person =>
+                    String(
+                        person.role
+                    ).toUpperCase()
+                    ===
+                    "HOD"
+            );
+
+
+        content.innerHTML = `
+
+            <h2>
+                👤 HOD Management
+            </h2>
+
+
+            <div class="tablewrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                HOD ID
+                            </th>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            hods.map(
+                                person => `
+
+                                <tr>
+
+                                    <td>
+                                        ${esc(
+                                            person.id
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            person.name
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            person.department
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            person.email
+                                        )}
+                                    </td>
+
+                                </tr>
+
+                            `
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+    }
+
+    catch(error){
+
+        content.innerHTML = `
+
+            <h2>
+                Unable to load HODs
+            </h2>
+
+            <p>
+                ${esc(
+                    error.message
+                )}
+            </p>
+
+        `;
+
+    }
+
+    scroll();
+
+}
+
+
+async function openDepartments(){
+
+    content.innerHTML =
+        "<h2>🏢 Loading departments...</h2>";
+
+
+    try{
+
+        const rows =
+            await Promise.all(
+
+                departments.map(
+                    async department => {
+
+                        try{
+
+                            const data =
+                                await get(
+
+                                    API +
+                                    "/attendance/department/" +
+
+                                    encodeURIComponent(
+                                        department[1]
+                                    )
+
+                                );
+
+
+                            const attendance =
+                                recordsFrom(data);
+
+
+                            const present =
+                                attendance.filter(
+                                    record =>
+                                        String(
+                                            record.status
+                                        ).toUpperCase()
+                                        ===
+                                        "PRESENT"
+                                ).length;
+
+
+                            return {
+
+                                code:
+                                    department[0],
+
+                                name:
+                                    department[1],
+
+                                records:
+                                    attendance.length,
+
+                                percent:
+                                    pct(
+                                        present,
+                                        attendance.length
+                                    )
+
+                            };
+
+                        }
+
+                        catch(error){
+
+                            return {
+
+                                code:
+                                    department[0],
+
+                                name:
+                                    department[1],
+
+                                records:0,
+
+                                percent:0
+
+                            };
+
+                        }
+
+                    }
+                )
+
+            );
+
+
+        content.innerHTML = `
+
+            <h2>
+                🏢 Department Statistics
+            </h2>
+
+
+            <div class="tablewrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Code
+                            </th>
+
+                            <th>
+                                Department
+                            </th>
+
+                            <th>
+                                Records
+                            </th>
+
+                            <th>
+                                Present Rate
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            rows.map(
+                                row => `
+
+                                <tr>
+
+                                    <td>
+                                        ${esc(
+                                            row.code
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            row.name
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${row.records}
+                                    </td>
+
+                                    <td>
+                                        ${
+                                            row.records
+                                            ? row.percent + "%"
+                                            : "NO RECORDS"
+                                        }
+                                    </td>
+
+                                    <td>
+
+                                        <span
+                                            class="badge ${
+                                                row.records
+                                                ? (
+                                                    row.percent >= LOW
+                                                    ? "good"
+                                                    : "warning"
+                                                )
+                                                : "info"
+                                            }"
+                                        >
+
+                                            ${
+                                                row.records
+                                                ? (
+                                                    row.percent >= LOW
+                                                    ? "OK"
+                                                    : "LOW"
+                                                )
+                                                : "NOT RECORDED"
+                                            }
+
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+                            `
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+    }
+
+    catch(error){
+
+        content.innerHTML = `
+
+            <h2>
+                Unable to load departments
+            </h2>
+
+            <p>
+                ${esc(
+                    error.message
+                )}
+            </p>
+
+        `;
+
+    }
+
+    scroll();
+
+}
+
+
+async function openAttendance(){
+
+    content.innerHTML =
+        "<h2>📊 Loading attendance...</h2>";
+
+
+    try{
+
+        const data =
+            await get(
+                API +
+                "/attendance/all"
+            );
+
+
+        const attendance =
+            recordsFrom(data);
+
+
+        const present =
+            attendance.filter(
+                record =>
+                    String(
+                        record.status
+                    ).toUpperCase()
+                    ===
+                    "PRESENT"
+            ).length;
+
+
+        const absent =
+            attendance.length -
+            present;
+
+
+        content.innerHTML = `
+
+            <h2>
+                📊 Institute Attendance
+            </h2>
+
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <div class="label">
+                        TOTAL RECORDS
+                    </div>
+
+                    <div class="value">
+                        ${attendance.length}
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        PRESENT
+                    </div>
+
+                    <div class="value">
+                        ${present}
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        ABSENT
+                    </div>
+
+                    <div class="value">
+                        ${absent}
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        PRESENT RATE
+                    </div>
+
+                    <div class="value">
+                        ${pct(
+                            present,
+                            attendance.length
+                        )}%
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="tablewrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+
+                            <th>Student</th>
+
+                            <th>Department</th>
+
+                            <th>Subject</th>
+
+                            <th>Status</th>
+
+                            <th>Marked By</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            attendance
+                            .slice()
+                            .reverse()
+                            .map(
+                                record => `
+
+                                <tr>
+
+                                    <td>
+                                        ${esc(
+                                            record.date
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            record.studentName ||
+                                            record.studentId
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            record.department
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            record.subject
+                                        )}
+                                    </td>
+
+                                    <td>
+
+                                        <span
+                                            class="badge ${
+                                                String(
+                                                    record.status
+                                                ).toUpperCase()
+                                                ===
+                                                "PRESENT"
+                                                ? "good"
+                                                : "danger"
+                                            }"
+                                        >
+
+                                            ${esc(
+                                                record.status
+                                            )}
+
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            record.markedBy
+                                        )}
+                                    </td>
+
+                                </tr>
+
+                            `
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+    }
+
+    catch(error){
+
+        content.innerHTML = `
+
+            <h2>
+                Unable to load attendance
+            </h2>
+
+            <p>
+                ${esc(
+                    error.message
+                )}
+            </p>
+
+        `;
+
+    }
+
+    scroll();
+
+}
+
+
+async function openReports(){
+
+    await openAttendance();
+
+}
+
+
+function openSettings(){
+
+    content.innerHTML = `
+
+        <h2>
+            ⚙️ System Settings
+        </h2>
+
+
+        <table>
+
+            <tr>
+
+                <td>
+                    College Start
+                </td>
+
+                <td>
+                    09:00
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    College End
+                </td>
+
+                <td>
+                    16:30
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Short Break
+                </td>
+
+                <td>
+                    10:40–10:50
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Lunch
+                </td>
+
+                <td>
+                    12:20–13:10
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Period 1
+                </td>
+
+                <td>
+                    09:00–09:50
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Period 2
+                </td>
+
+                <td>
+                    09:50–10:40
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Period 3
+                </td>
+
+                <td>
+                    10:50–11:40
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Period 4
+                </td>
+
+                <td>
+                    11:40–12:20
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Period 5
+                </td>
+
+                <td>
+                    13:10–14:00
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Period 6
+                </td>
+
+                <td>
+                    14:00–14:50
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Period 7
+                </td>
+
+                <td>
+                    14:50–15:40
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td>
+                    Period 8
+                </td>
+
+                <td>
+                    15:40–16:30
+                </td>
+
+            </tr>
+
+        </table>
+
+    `;
+
+    scroll();
+
+}
+
+
+async function analyzeWithAI(){
+
+    const button =
+        document.getElementById(
+            "aiButton"
+        );
+
+
+    const result =
+        document.getElementById(
+            "aiResult"
+        );
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "🤖 AI ANALYZING...";
+
+
+    try{
+
+        const data =
+            await get(
+                API +
+                "/attendance/all"
+            );
+
+
+        const attendance =
+            recordsFrom(data);
+
+
+        const present =
+            attendance.filter(
+                record =>
+                    String(
+                        record.status
+                    ).toUpperCase()
+                    ===
+                    "PRESENT"
+            ).length;
+
+
+        const attendancePercent =
+            pct(
+                present,
+                attendance.length
+            );
+
+
+        const response =
+            await fetch(
+
+                API +
+                "/ai/analyze",
+
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            name:
+                                me?.name ||
+                                "Administrator",
+
+                            role:
+                                me?.role ||
+                                "ADMIN",
+
+                            department:
+                                "Institute",
+
+                            attendance:
+                                attendancePercent
+
+                        })
+
+                }
+
+            );
+
+
+        const ai =
+            await response.json();
+
+
+        if(
+            !response.ok ||
+            !ai.success
+        ){
+
+            throw new Error(
+                ai.message ||
+                "AI analysis failed."
+            );
+
+        }
+
+
+        result.innerHTML = `
+
+            <div class="airesult">
+
+                <h3>
+                    🤖 DIET AI Analysis
+                </h3>
+
+                <p>
+                    ${esc(
+                        ai.summary ||
+                        "Analysis completed."
+                    )}
+                </p>
+
+                <p>
+
+                    <strong>
+                        Attendance:
+                    </strong>
+
+                    ${esc(
+                        ai.attendance ??
+                        attendancePercent
+                    )}%
+
+                </p>
+
+                <p>
+
+                    <strong>
+                        Status:
+                    </strong>
+
+                    ${esc(
+                        ai.status ||
+                        "ANALYZED"
+                    )}
+
+                </p>
+
+
+                <h4>
+                    Findings
+                </h4>
+
+                <ul>
+
+                    ${
+                        (
+                            ai.findings ||
+                            []
+                        )
+                        .map(
+                            item =>
+                                `<li>
+                                    ${esc(item)}
+                                </li>`
+                        )
+                        .join("")
+                        ||
+                        "<li>No findings.</li>"
+                    }
+
+                </ul>
+
+
+                <h4>
+                    Recommendations
+                </h4>
+
+                <ul>
+
+                    ${
+                        (
+                            ai.recommendations ||
+                            []
+                        )
+                        .map(
+                            item =>
+                                `<li>
+                                    ${esc(item)}
+                                </li>`
+                        )
+                        .join("")
+                        ||
+                        "<li>No recommendations.</li>"
+                    }
+
+                </ul>
+
+            </div>
+
+        `;
+
+    }
+
+    catch(error){
+
+        result.innerHTML = `
+
+            <div class="airesult">
+
+                <b>
+                    ❌ AI Error
+                </b>
+
+                <p>
+                    ${esc(
+                        error.message
+                    )}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+    finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "✦ Analyze With AI";
+
+    }
+
+}
+
+
+function openTimetable(){
+
+    location.href =
+        "/timetable.html";
+
+}
+
+
+function goHome(){
+
+    location.href =
+        "/";
+
+}
+
+
+function logout(){
+
+    sessionStorage.clear();
+
+    localStorage.clear();
+
+    location.href =
+        "/login.html";
+
+}
+
+
+loadStats();
+
+</script>
+
+</body>
+</html>

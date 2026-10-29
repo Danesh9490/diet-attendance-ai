@@ -1,0 +1,12 @@
+[ {
+  "id" : "c6a29980-cb4a-480d-8795-e5445683bf24",
+  "department" : "IT",
+  "day" : "Monday",
+  "period" : 1,
+  "subject" : "mathematics",
+  "facultyId" : "268T1A1296",
+  "facultyName" : "test faculty",
+  "startTime" : "09:00",
+  "endTime" : "09:50",
+  "room" : "Room 101"
+} ]

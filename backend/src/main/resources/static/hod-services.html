@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIET AI | HOD Services</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:"Segoe UI",Arial,sans-serif;
+    color:#10204a;
+    background:
+    linear-gradient(rgba(2,20,50,.40),rgba(2,20,50,.60)),
+    url("https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2400&q=95")
+    center/cover fixed no-repeat;
+}
+
+.header{
+    min-height:72px;
+    padding:12px 30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:rgba(3,25,65,.94);
+    color:white;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+    font-size:11px;
+    font-weight:900;
+}
+
+.brand h1{
+    margin:0;
+    font-size:18px;
+}
+
+.brand p{
+    margin:3px 0 0;
+    color:#bfdbfe;
+    font-size:9px;
+}
+
+.header button{
+    border:0;
+    border-radius:9px;
+    padding:10px 14px;
+    margin-left:5px;
+    background:rgba(255,255,255,.12);
+    color:white;
+    cursor:pointer;
+    font-weight:800;
+}
+
+.container{
+    max-width:1350px;
+    margin:auto;
+    padding:30px;
+}
+
+.hero{
+    padding:28px;
+    border-radius:22px;
+    background:rgba(255,255,255,.96);
+    box-shadow:0 20px 60px rgba(0,0,0,.18);
+}
+
+.hero h2{
+    margin:0;
+    font-size:28px;
+}
+
+.hero p{
+    color:#64748b;
+}
+
+.stats{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.stat{
+    padding:20px;
+    border-radius:16px;
+    background:rgba(255,255,255,.96);
+    box-shadow:0 12px 35px rgba(0,0,0,.12);
+}
+
+.stat-label{
+    color:#64748b;
+    font-size:9px;
+    font-weight:900;
+}
+
+.stat-value{
+    margin-top:7px;
+    font-size:27px;
+    font-weight:900;
+}
+
+.content{
+    margin-top:20px;
+    padding:25px;
+    border-radius:20px;
+    background:rgba(255,255,255,.97);
+    box-shadow:0 15px 45px rgba(0,0,0,.15);
+}
+
+.toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+.toolbar button{
+    border:0;
+    border-radius:9px;
+    padding:10px 14px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-weight:800;
+}
+
+.toolbar button.secondary{
+    background:#e2e8f0;
+    color:#10204a;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    padding:13px;
+    text-align:left;
+    background:#e2e8f0;
+    font-size:11px;
+}
+
+td{
+    padding:13px;
+    border-bottom:1px solid #e2e8f0;
+    font-size:11px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:9px;
+    font-weight:900;
+}
+
+.good{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.warning{
+    background:#fef3c7;
+    color:#a16207;
+}
+
+.danger{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.chart{
+    margin-top:20px;
+}
+
+.bar-row{
+    margin:14px 0;
+}
+
+.bar-label{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:5px;
+    font-size:11px;
+    font-weight:800;
+}
+
+.bar{
+    height:12px;
+    border-radius:20px;
+    background:#e2e8f0;
+    overflow:hidden;
+}
+
+.bar-fill{
+    height:100%;
+    border-radius:20px;
+    background:linear-gradient(90deg,#2563eb,#06b6d4);
+}
+
+.empty{
+    padding:30px;
+    text-align:center;
+    color:#64748b;
+}
+
+@media(max-width:900px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:600px){
+    .header{
+        padding:12px 15px;
+    }
+
+    .container{
+        padding:18px 15px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .header-actions{
+        display:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+<div class="brand">
+    <div class="logo">DIET</div>
+
+    <div>
+        <h1>DIET Attendance AI</h1>
+        <p>HOD SERVICES</p>
+    </div>
+</div>
+
+<div class="header-actions">
+    <button onclick="goPortal()">HOD Portal</button>
+    <button onclick="logout()">Logout</button>
+</div>
+
+</header>
+
+
+<main class="container">
+
+<section class="hero">
+
+    <h2 id="heading">
+        Department Management
+    </h2>
+
+    <p id="subheading">
+        Loading department...
+    </p>
+
+</section>
+
+
+<section class="stats">
+
+<div class="stat">
+    <div class="stat-label">DEPARTMENT</div>
+    <div class="stat-value" id="department">—</div>
+</div>
+
+<div class="stat">
+    <div class="stat-label">STUDENTS</div>
+    <div class="stat-value">120</div>
+</div>
+
+<div class="stat">
+    <div class="stat-label">FACULTY</div>
+    <div class="stat-value">12</div>
+</div>
+
+<div class="stat">
+    <div class="stat-label">AVERAGE ATTENDANCE</div>
+    <div class="stat-value">82%</div>
+</div>
+
+</section>
+
+
+<section class="content">
+
+<div class="toolbar">
+
+    <button onclick="showStudents()">
+        👨‍🎓 Students
+    </button>
+
+    <button onclick="showFaculty()">
+        👨‍🏫 Faculty
+    </button>
+
+    <button onclick="showAnalytics()">
+        📊 Analytics
+    </button>
+
+    <button onclick="openTimetable()">
+        🗓️ Timetable
+    </button>
+
+    <button
+        class="secondary"
+        onclick="showHome()"
+    >
+        Overview
+    </button>
+
+</div>
+
+
+<div id="content">
+
+</div>
+
+</section>
+
+</main>
+
+
+<script>
+
+"use strict";
+
+
+/* ==========================================
+   USER
+========================================== */
+
+function getUser(){
+
+    const raw =
+        sessionStorage.getItem("authenticatedUser") ||
+        localStorage.getItem("authenticatedUser") ||
+        sessionStorage.getItem("attendanceUser") ||
+        localStorage.getItem("attendanceUser");
+
+    if(!raw){
+        return null;
+    }
+
+    try{
+        return JSON.parse(raw);
+    }
+    catch{
+        return null;
+    }
+}
+
+
+const user = getUser();
+
+
+if(!user){
+
+    window.location.href =
+        "/login.html";
+
+}
+
+
+const department =
+    user?.department ||
+    "IT";
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+if(user){
+
+    document.getElementById(
+        "heading"
+    ).textContent =
+        "Welcome, " +
+        (
+            user.name ||
+            "HOD"
+        );
+
+    document.getElementById(
+        "subheading"
+    ).textContent =
+        department +
+        " · Department Management";
+
+    document.getElementById(
+        "department"
+    ).textContent =
+        department;
+
+}
+
+
+/* ==========================================
+   CONTENT
+========================================== */
+
+const content =
+    document.getElementById(
+        "content"
+    );
+
+
+/* ==========================================
+   HOME
+========================================== */
+
+function showHome(){
+
+    content.innerHTML = `
+
+        <h2>
+            Department Overview
+        </h2>
+
+        <p>
+            Welcome to the HOD management
+            dashboard for
+            <strong>
+                ${escapeHtml(department)}
+            </strong>.
+        </p>
+
+        <div class="chart">
+
+            <h3>
+                Attendance Overview
+            </h3>
+
+            ${bar(
+                "Information Technology",
+                department === "IT"
+                    ? 82
+                    : 76
+            )}
+
+            ${bar(
+                "Current Semester",
+                82
+            )}
+
+            ${bar(
+                "Minimum Required",
+                75
+            )}
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==========================================
+   STUDENTS
+========================================== */
+
+function showStudents(){
+
+    const students = [
+
+        {
+            id:"268T1A1293",
+            name:"Student 01",
+            year:"III Year",
+            attendance:82
+        },
+
+        {
+            id:"268T1A1294",
+            name:"Student 02",
+            year:"III Year",
+            attendance:88
+        },
+
+        {
+            id:"268T1A1295",
+            name:"Student 03",
+            year:"III Year",
+            attendance:68
+        },
+
+        {
+            id:"268T1A1296",
+            name:"Student 04",
+            year:"III Year",
+            attendance:91
+        },
+
+        {
+            id:"268T1A1297",
+            name:"Student 05",
+            year:"III Year",
+            attendance:74
+        }
+
+    ];
+
+
+    content.innerHTML = `
+
+        <h2>
+            ${escapeHtml(department)}
+            Students
+        </h2>
+
+        <p>
+            Department student directory.
+        </p>
+
+        <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        ID
+                    </th>
+
+                    <th>
+                        Student
+                    </th>
+
+                    <th>
+                        Year
+                    </th>
+
+                    <th>
+                        Attendance
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${students.map(
+                    student => `
+
+                    <tr>
+
+                        <td>
+                            ${student.id}
+                        </td>
+
+                        <td>
+                            <strong>
+                                ${student.name}
+                            </strong>
+                        </td>
+
+                        <td>
+                            ${student.year}
+                        </td>
+
+                        <td>
+                            ${student.attendance}%
+                        </td>
+
+                        <td>
+                            ${statusBadge(
+                                student.attendance
+                            )}
+                        </td>
+
+                    </tr>
+
+                    `
+                ).join("")}
+
+            </tbody>
+
+        </table>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==========================================
+   FACULTY
+========================================== */
+
+function showFaculty(){
+
+    const faculty = [
+
+        {
+            id:"1001",
+            name:"Faculty 01",
+            subject:"Programming"
+        },
+
+        {
+            id:"1002",
+            name:"Faculty 02",
+            subject:"Database Systems"
+        },
+
+        {
+            id:"1003",
+            name:"Faculty 03",
+            subject:"Computer Networks"
+        },
+
+        {
+            id:"1004",
+            name:"Faculty 04",
+            subject:"Web Technologies"
+        }
+
+    ];
+
+
+    content.innerHTML = `
+
+        <h2>
+            ${escapeHtml(department)}
+            Faculty
+        </h2>
+
+        <p>
+            Faculty assigned to this department.
+        </p>
+
+        <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Teacher ID
+                    </th>
+
+                    <th>
+                        Faculty
+                    </th>
+
+                    <th>
+                        Subject
+                    </th>
+
+                    <th>
+                        Department
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                ${faculty.map(
+                    member => `
+
+                    <tr>
+
+                        <td>
+                            ${member.id}
+                        </td>
+
+                        <td>
+                            <strong>
+                                ${member.name}
+                            </strong>
+                        </td>
+
+                        <td>
+                            ${member.subject}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                department
+                            )}
+                        </td>
+
+                    </tr>
+
+                    `
+                ).join("")}
+
+            </tbody>
+
+        </table>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==========================================
+   ANALYTICS
+========================================== */
+
+function showAnalytics(){
+
+    content.innerHTML = `
+
+        <h2>
+            Attendance Analytics
+        </h2>
+
+        <p>
+            Department:
+            <strong>
+                ${escapeHtml(department)}
+            </strong>
+        </p>
+
+        <div class="chart">
+
+            ${bar(
+                "Overall Attendance",
+                82
+            )}
+
+            ${bar(
+                "First Year",
+                86
+            )}
+
+            ${bar(
+                "Second Year",
+                81
+            )}
+
+            ${bar(
+                "Third Year",
+                78
+            )}
+
+            ${bar(
+                "Final Year",
+                84
+            )}
+
+            ${bar(
+                "Required Minimum",
+                75
+            )}
+
+        </div>
+
+        <br>
+
+        <h3>
+            Low Attendance Students
+        </h3>
+
+        <div class="student">
+
+            Students below 75%:
+            <strong class="danger">
+                14
+            </strong>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==========================================
+   BAR
+========================================== */
+
+function bar(
+    label,
+    value
+){
+
+    return `
+
+        <div class="bar-row">
+
+            <div class="bar-label">
+
+                <span>
+                    ${label}
+                </span>
+
+                <span>
+                    ${value}%
+                </span>
+
+            </div>
+
+            <div class="bar">
+
+                <div
+                    class="bar-fill"
+                    style="width:${value}%"
+                ></div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==========================================
+   STATUS
+========================================== */
+
+function statusBadge(
+    value
+){
+
+    if(value >= 80){
+
+        return `
+            <span class="badge good">
+                GOOD
+            </span>
+        `;
+
+    }
+
+    if(value >= 75){
+
+        return `
+            <span class="badge warning">
+                MONITOR
+            </span>
+        `;
+
+    }
+
+    return `
+        <span class="badge danger">
+            LOW
+        </span>
+    `;
+
+}
+
+
+/* ==========================================
+   TIMETABLE
+========================================== */
+
+function openTimetable(){
+
+    window.location.href =
+        "/timetable.html?department=" +
+        encodeURIComponent(
+            department
+        );
+
+}
+
+
+/* ==========================================
+   PORTAL
+========================================== */
+
+function goPortal(){
+
+    window.location.href =
+        "/hod.html";
+
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+function logout(){
+
+    sessionStorage.clear();
+
+    localStorage.clear();
+
+    window.location.href =
+        "/login.html";
+
+}
+
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHtml(value){
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* ==========================================
+   INITIAL
+========================================== */
+
+showHome();
+
+</script>
+
+</body>
+</html>

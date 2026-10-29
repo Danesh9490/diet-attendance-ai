@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DIET Smart Attendance - Period Attendance</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #0b5ed7;
+            color: white;
+            padding: 20px 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            opacity: 0.9;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 25px auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 3px 14px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #0b5ed7;
+            font-size: 21px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field label {
+            font-weight: bold;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        .field input,
+        .field select {
+            padding: 11px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+            background: white;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            border-color: #0b5ed7;
+            box-shadow: 0 0 0 2px rgba(11,94,215,0.1);
+        }
+
+        .full-width {
+            grid-column: span 4;
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 11px 18px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #0b5ed7;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #084db2;
+        }
+
+        .btn-secondary {
+            background: #64748b;
+            color: white;
+        }
+
+        .btn-success {
+            background: #198754;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #111827;
+        }
+
+        .message {
+            display: none;
+            padding: 12px 15px;
+            border-radius: 7px;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        .message.success {
+            display: block;
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .message.error {
+            display: block;
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1100px;
+        }
+
+        th {
+            background: #0b5ed7;
+            color: white;
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 11px 10px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .status-present {
+            display: inline-block;
+            background: #d1e7dd;
+            color: #0f5132;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .status-absent {
+            display: inline-block;
+            background: #f8d7da;
+            color: #842029;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .summary-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+            padding: 17px;
+            text-align: center;
+        }
+
+        .summary-number {
+            font-size: 27px;
+            font-weight: bold;
+            color: #0b5ed7;
+        }
+
+        .summary-label {
+            margin-top: 5px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .period-info {
+            background: #eff6ff;
+            border-left: 4px solid #0b5ed7;
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-top: 16px;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #0b5ed7;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1000px) {
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .full-width {
+                grid-column: span 2;
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 92%;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>DIET Smart Attendance</h1>
+    <p>Period-wise Attendance Management</p>
+</div>
+
+<div class="container">
+
+    <!-- ATTENDANCE FORM -->
+    <div class="card">
+
+        <h2>Mark Period Attendance</h2>
+
+        <div class="form-grid">
+
+            <div class="field">
+                <label for="studentId">Student ID *</label>
+                <input
+                    type="text"
+                    id="studentId"
+                    placeholder="Enter student ID"
+                    required>
+            </div>
+
+            <div class="field">
+                <label for="studentName">Student Name</label>
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter student name">
+            </div>
+
+            <div class="field">
+                <label for="department">Department</label>
+                <select id="department">
+                    <option value="">Select Department</option>
+                    <option value="IT">Information Technology</option>
+                    <option value="CSE">Computer Science and Engineering</option>
+                    <option value="ECE">Electronics and Communication Engineering</option>
+                    <option value="EEE">Electrical and Electronics Engineering</option>
+                    <option value="MECH">Mechanical Engineering</option>
+                    <option value="CIVIL">Civil Engineering</option>
+                    <option value="AI&DS">Artificial Intelligence & Data Science</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="date">Date *</label>
+                <input
+                    type="date"
+                    id="date">
+            </div>
+
+            <div class="field">
+                <label for="facultyId">Faculty ID</label>
+                <input
+                    type="text"
+                    id="facultyId"
+                    placeholder="Enter faculty ID">
+            </div>
+
+            <div class="field">
+                <label for="facultyName">Faculty Name</label>
+                <input
+                    type="text"
+                    id="facultyName"
+                    placeholder="Enter faculty name">
+            </div>
+
+            <div class="field">
+                <label for="subject">Subject *</label>
+                <input
+                    type="text"
+                    id="subject"
+                    placeholder="Enter subject">
+            </div>
+
+            <div class="field">
+                <label for="period">Period *</label>
+                <select id="period">
+                    <option value="">Select Period</option>
+                    <option value="1">Period 1</option>
+                    <option value="2">Period 2</option>
+                    <option value="3">Period 3</option>
+                    <option value="4">Period 4</option>
+                    <option value="5">Period 5</option>
+                    <option value="6">Period 6</option>
+                    <option value="7">Period 7</option>
+                    <option value="8">Period 8</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="startTime">Start Time</label>
+                <input
+                    type="time"
+                    id="startTime">
+            </div>
+
+            <div class="field">
+                <label for="endTime">End Time</label>
+                <input
+                    type="time"
+                    id="endTime">
+            </div>
+
+            <div class="field">
+                <label for="room">Room</label>
+                <input
+                    type="text"
+                    id="room"
+                    placeholder="Example: Room 204">
+            </div>
+
+            <div class="field">
+                <label for="status">Attendance Status *</label>
+                <select id="status">
+                    <option value="">Select Status</option>
+                    <option value="PRESENT">Present</option>
+                    <option value="ABSENT">Absent</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div id="periodInfo" class="period-info"></div>
+
+        <div class="button-row">
+
+            <button
+                class="btn-primary"
+                onclick="markAttendance()">
+                Save Attendance
+            </button>
+
+            <button
+                class="btn-secondary"
+                onclick="clearForm()">
+                Clear Form
+            </button>
+
+            <button
+                class="btn-success"
+                onclick="loadRecords()">
+                Refresh Records
+            </button>
+
+        </div>
+
+        <div id="message" class="message"></div>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+    <div class="card">
+
+        <h2>Attendance Summary</h2>
+
+        <div class="summary-grid">
+
+            <div class="summary-box">
+                <div
+                    id="totalCount"
+                    class="summary-number">
+                    0
+                </div>
+                <div class="summary-label">
+                    Total Records
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <div
+                    id="presentCount"
+                    class="summary-number">
+                    0
+                </div>
+                <div class="summary-label">
+                    Present
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <div
+                    id="absentCount"
+                    class="summary-number">
+                    0
+                </div>
+                <div class="summary-label">
+                    Absent
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <div
+                    id="percentageCount"
+                    class="summary-number">
+                    0%
+                </div>
+                <div class="summary-label">
+                    Attendance Percentage
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FILTER -->
+    <div class="card">
+
+        <h2>Search / Filter Attendance</h2>
+
+        <div class="form-grid">
+
+            <div class="field">
+                <label for="filterStudent">Student ID</label>
+                <input
+                    type="text"
+                    id="filterStudent"
+                    placeholder="Search student ID"
+                    oninput="applyFilters()">
+            </div>
+
+            <div class="field">
+                <label for="filterDepartment">Department</label>
+                <select
+                    id="filterDepartment"
+                    onchange="applyFilters()">
+
+                    <option value="">All Departments</option>
+                    <option value="IT">IT</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="EEE">EEE</option>
+                    <option value="MECH">MECH</option>
+                    <option value="CIVIL">CIVIL</option>
+                    <option value="AI&DS">AI&DS</option>
+
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="filterDate">Date</label>
+                <input
+                    type="date"
+                    id="filterDate"
+                    onchange="applyFilters()">
+            </div>
+
+            <div class="field">
+                <label for="filterPeriod">Period</label>
+                <select
+                    id="filterPeriod"
+                    onchange="applyFilters()">
+
+                    <option value="">All Periods</option>
+                    <option value="1">Period 1</option>
+                    <option value="2">Period 2</option>
+                    <option value="3">Period 3</option>
+                    <option value="4">Period 4</option>
+                    <option value="5">Period 5</option>
+                    <option value="6">Period 6</option>
+                    <option value="7">Period 7</option>
+                    <option value="8">Period 8</option>
+
+                </select>
+            </div>
+
+        </div>
+
+        <div class="button-row">
+
+            <button
+                class="btn-warning"
+                onclick="resetFilters()">
+                Reset Filters
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- RECORDS -->
+    <div class="card">
+
+        <h2>Period Attendance Records</h2>
+
+        <div
+            id="loading"
+            class="loading">
+            Loading attendance records...
+        </div>
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Department</th>
+                    <th>Date</th>
+                    <th>Period</th>
+                    <th>Subject</th>
+                    <th>Faculty</th>
+                    <th>Time</th>
+                    <th>Room</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+
+                </thead>
+
+                <tbody id="recordsBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const API_URL = "/api/period-attendance";
+
+    let allRecords = [];
+
+
+    // Set today's date automatically
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const today = new Date();
+
+        const yyyy = today.getFullYear();
+
+        const mm = String(
+            today.getMonth() + 1
+        ).padStart(2, "0");
+
+        const dd = String(
+            today.getDate()
+        ).padStart(2, "0");
+
+        document.getElementById("date").value =
+            `${yyyy}-${mm}-${dd}`;
+
+        loadRecords();
+
+    });
+
+
+    // Timetable information
+    const periodTimes = {
+
+        1: {
+            start: "09:00",
+            end: "09:50"
+        },
+
+        2: {
+            start: "09:50",
+            end: "10:40"
+        },
+
+        3: {
+            start: "10:50",
+            end: "11:40"
+        },
+
+        4: {
+            start: "11:40",
+            end: "12:20"
+        },
+
+        5: {
+            start: "13:10",
+            end: "14:00"
+        },
+
+        6: {
+            start: "14:00",
+            end: "14:50"
+        },
+
+        7: {
+            start: "14:50",
+            end: "15:40"
+        },
+
+        8: {
+            start: "15:40",
+            end: "16:30"
+        }
+
+    };
+
+
+    // Automatically set timetable time
+    document.getElementById("period")
+        .addEventListener("change", function () {
+
+            const selectedPeriod =
+                this.value;
+
+            const info =
+                document.getElementById("periodInfo");
+
+            if (!selectedPeriod) {
+
+                info.style.display = "none";
+
+                return;
+            }
+
+            const time =
+                periodTimes[selectedPeriod];
+
+            if (!time) {
+                return;
+            }
+
+            document.getElementById("startTime").value =
+                time.start;
+
+            document.getElementById("endTime").value =
+                time.end;
+
+            info.innerHTML =
+                "Period " +
+                selectedPeriod +
+                " timetable: " +
+                time.start +
+                " - " +
+                time.end;
+
+            info.style.display = "block";
+
+        });
+
+
+    // Show message
+    function showMessage(
+        message,
+        type
+    ) {
+
+        const element =
+            document.getElementById("message");
+
+        element.className =
+            "message " + type;
+
+        element.textContent =
+            message;
+
+        setTimeout(function () {
+
+            element.className =
+                "message";
+
+        }, 4000);
+
+    }
+
+
+    // Mark attendance
+    async function markAttendance() {
+
+        const studentId =
+            document.getElementById("studentId")
+                .value.trim();
+
+        const studentName =
+            document.getElementById("studentName")
+                .value.trim();
+
+        const facultyId =
+            document.getElementById("facultyId")
+                .value.trim();
+
+        const facultyName =
+            document.getElementById("facultyName")
+                .value.trim();
+
+        const department =
+            document.getElementById("department")
+                .value;
+
+        const subject =
+            document.getElementById("subject")
+                .value.trim();
+
+        const period =
+            document.getElementById("period")
+                .value;
+
+        const date =
+            document.getElementById("date")
+                .value;
+
+        const startTime =
+            document.getElementById("startTime")
+                .value;
+
+        const endTime =
+            document.getElementById("endTime")
+                .value;
+
+        const status =
+            document.getElementById("status")
+                .value;
+
+        const room =
+            document.getElementById("room")
+                .value.trim();
+
+
+        if (!studentId) {
+
+            showMessage(
+                "Student ID is required.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (!subject) {
+
+            showMessage(
+                "Subject is required.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (!period) {
+
+            showMessage(
+                "Please select a period.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (!date) {
+
+            showMessage(
+                "Please select a date.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (!status) {
+
+            showMessage(
+                "Please select Present or Absent.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const data = {
+
+            studentId: studentId,
+
+            studentName: studentName,
+
+            facultyId: facultyId,
+
+            facultyName: facultyName,
+
+            department: department,
+
+            subject: subject,
+
+            period: Number(period),
+
+            date: date,
+
+            startTime: startTime,
+
+            endTime: endTime,
+
+            status: status,
+
+            room: room
+
+        };
+
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL + "/mark",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(data)
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                showMessage(
+                    result.message ||
+                    "Unable to save attendance.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            showMessage(
+                "Period attendance saved successfully.",
+                "success"
+            );
+
+
+            loadRecords();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "Cannot connect to the attendance server.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    // Load all records
+    async function loadRecords() {
+
+        const loading =
+            document.getElementById("loading");
+
+        loading.style.display =
+            "block";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL + "/all"
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load records."
+                );
+
+            }
+
+
+            allRecords =
+                result.records || [];
+
+
+            applyFilters();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            allRecords = [];
+
+            renderRecords([]);
+
+            showMessage(
+                "Unable to load attendance records.",
+                "error"
+            );
+
+        } finally {
+
+            loading.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    // Apply filters
+    function applyFilters() {
+
+        const student =
+            document.getElementById("filterStudent")
+                .value
+                .trim()
+                .toLowerCase();
+
+        const department =
+            document.getElementById("filterDepartment")
+                .value;
+
+        const date =
+            document.getElementById("filterDate")
+                .value;
+
+        const period =
+            document.getElementById("filterPeriod")
+                .value;
+
+
+        const filtered =
+            allRecords.filter(
+                function (record) {
+
+                    const studentMatch =
+                        !student ||
+                        (
+                            record.studentId &&
+                            record.studentId
+                                .toLowerCase()
+                                .includes(student)
+                        );
+
+
+                    const departmentMatch =
+                        !department ||
+                        record.department === department;
+
+
+                    const dateMatch =
+                        !date ||
+                        record.date === date;
+
+
+                    const periodMatch =
+                        !period ||
+                        String(record.period) === period;
+
+
+                    return (
+                        studentMatch &&
+                        departmentMatch &&
+                        dateMatch &&
+                        periodMatch
+                    );
+
+                }
+            );
+
+
+        renderRecords(filtered);
+
+        updateSummary(filtered);
+
+    }
+
+
+    // Display records
+    function renderRecords(records) {
+
+        const body =
+            document.getElementById("recordsBody");
+
+
+        if (!records.length) {
+
+            body.innerHTML = `
+                <tr>
+                    <td colspan="11" class="empty">
+                        No attendance records found.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        body.innerHTML =
+            records.map(
+                function (record) {
+
+                    const status =
+                        String(
+                            record.status || ""
+                        ).toUpperCase();
+
+
+                    const statusClass =
+                        status === "PRESENT"
+                            ? "status-present"
+                            : "status-absent";
+
+
+                    return `
+
+                        <tr>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.studentId || "-"
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.studentName || "-"
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.department || "-"
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.date || "-"
+                                )}
+                            </td>
+
+                            <td>
+                                Period
+                                ${record.period || "-"}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.subject || "-"
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.facultyName || "-"
+                                )}
+                            </td>
+
+                            <td>
+                                ${
+                                    record.startTime || "-"
+                                }
+                                -
+                                ${
+                                    record.endTime || "-"
+                                }
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.room || "-"
+                                )}
+                            </td>
+
+                            <td>
+                                <span class="${statusClass}">
+                                    ${escapeHtml(status || "-")}
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="btn-danger"
+                                    onclick="deleteRecord('${record.id}')">
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+    // Update summary
+    function updateSummary(records) {
+
+        const total =
+            records.length;
+
+
+        const present =
+            records.filter(
+                function (record) {
+
+                    return String(
+                        record.status || ""
+                    ).toUpperCase() === "PRESENT";
+
+                }
+            ).length;
+
+
+        const absent =
+            records.filter(
+                function (record) {
+
+                    return String(
+                        record.status || ""
+                    ).toUpperCase() === "ABSENT";
+
+                }
+            ).length;
+
+
+        const percentage =
+            total > 0
+                ? ((present / total) * 100)
+                    .toFixed(1)
+                : "0";
+
+
+        document.getElementById("totalCount")
+            .textContent = total;
+
+
+        document.getElementById("presentCount")
+            .textContent = present;
+
+
+        document.getElementById("absentCount")
+            .textContent = absent;
+
+
+        document.getElementById("percentageCount")
+            .textContent = percentage + "%";
+
+    }
+
+
+    // Delete record
+    async function deleteRecord(id) {
+
+        if (!id) {
+
+            showMessage(
+                "Invalid attendance record.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const confirmed =
+            confirm(
+                "Are you sure you want to delete this attendance record?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL + "/" +
+                    encodeURIComponent(id),
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                showMessage(
+                    "Unable to delete attendance record.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            showMessage(
+                "Attendance record deleted successfully.",
+                "success"
+            );
+
+
+            loadRecords();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "Cannot connect to the attendance server.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    // Clear form
+    function clearForm() {
+
+        document.getElementById("studentId")
+            .value = "";
+
+        document.getElementById("studentName")
+            .value = "";
+
+        document.getElementById("facultyId")
+            .value = "";
+
+        document.getElementById("facultyName")
+            .value = "";
+
+        document.getElementById("department")
+            .value = "";
+
+        document.getElementById("subject")
+            .value = "";
+
+        document.getElementById("period")
+            .value = "";
+
+        document.getElementById("startTime")
+            .value = "";
+
+        document.getElementById("endTime")
+            .value = "";
+
+        document.getElementById("room")
+            .value = "";
+
+        document.getElementById("status")
+            .value = "";
+
+
+        const today =
+            new Date();
+
+        const yyyy =
+            today.getFullYear();
+
+        const mm =
+            String(
+                today.getMonth() + 1
+            ).padStart(2, "0");
+
+        const dd =
+            String(
+                today.getDate()
+            ).padStart(2, "0");
+
+
+        document.getElementById("date")
+            .value =
+            `${yyyy}-${mm}-${dd}`;
+
+
+        document.getElementById("periodInfo")
+            .style.display = "none";
+
+    }
+
+
+    // Reset filters
+    function resetFilters() {
+
+        document.getElementById("filterStudent")
+            .value = "";
+
+        document.getElementById("filterDepartment")
+            .value = "";
+
+        document.getElementById("filterDate")
+            .value = "";
+
+        document.getElementById("filterPeriod")
+            .value = "";
+
+
+        applyFilters();
+
+    }
+
+
+    // Prevent HTML injection in table
+    function escapeHtml(value) {
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+</script>
+
+</body>
+</html>

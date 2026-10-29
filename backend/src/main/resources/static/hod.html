@@ -1,0 +1,2086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DIET AI | HOD Portal</title>
+
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:"Segoe UI",Arial,sans-serif;
+    color:#10204a;
+    background:
+    linear-gradient(
+        rgba(2,20,50,.38),
+        rgba(2,20,50,.60)
+    ),
+    url("https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2400&q=95")
+    center/cover fixed no-repeat;
+}
+
+.header{
+    min-height:72px;
+    padding:12px 30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:rgba(3,25,65,.95);
+    color:white;
+    position:sticky;
+    top:0;
+    z-index:100;
+    backdrop-filter:blur(15px);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:46px;
+    height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:13px;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+    font-size:11px;
+    font-weight:900;
+}
+
+.brand h1{
+    margin:0;
+    font-size:18px;
+}
+
+.brand p{
+    margin:3px 0 0;
+    color:#bfdbfe;
+    font-size:9px;
+    font-weight:700;
+}
+
+.header button{
+    border:0;
+    border-radius:9px;
+    padding:10px 14px;
+    margin-left:5px;
+    background:rgba(255,255,255,.12);
+    color:white;
+    cursor:pointer;
+    font-weight:800;
+}
+
+.header button:hover{
+    background:rgba(255,255,255,.22);
+}
+
+.container{
+    max-width:1400px;
+    margin:auto;
+    padding:30px;
+}
+
+.hero,
+.card,
+.content{
+    background:rgba(255,255,255,.97);
+    box-shadow:0 15px 45px rgba(0,0,0,.15);
+    border-radius:20px;
+}
+
+.hero{
+    padding:30px;
+}
+
+.hero h2{
+    margin:0;
+    font-size:30px;
+}
+
+.hero p{
+    color:#64748b;
+}
+
+.grid{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.card{
+    padding:20px;
+}
+
+.label{
+    color:#64748b;
+    font-size:9px;
+    font-weight:900;
+}
+
+.value{
+    margin-top:7px;
+    font-size:20px;
+    font-weight:900;
+}
+
+.actions{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
+
+.action{
+    min-height:140px;
+    padding:20px;
+    border:0;
+    border-radius:17px;
+    background:rgba(255,255,255,.97);
+    color:#10204a;
+    text-align:left;
+    cursor:pointer;
+    box-shadow:0 12px 35px rgba(0,0,0,.12);
+    transition:.2s;
+}
+
+.action:hover{
+    transform:translateY(-4px);
+}
+
+.icon{
+    font-size:28px;
+}
+
+.title{
+    margin-top:10px;
+    font-size:15px;
+    font-weight:900;
+}
+
+.text{
+    margin-top:5px;
+    color:#64748b;
+    font-size:10px;
+    line-height:1.5;
+}
+
+.ai{
+    margin-top:20px;
+    padding:25px;
+    border-radius:20px;
+    background:
+    linear-gradient(
+        135deg,
+        rgba(15,23,42,.97),
+        rgba(30,64,175,.95)
+    );
+    color:white;
+}
+
+.ai p{
+    color:#bfdbfe;
+}
+
+.ai button{
+    border:0;
+    border-radius:10px;
+    padding:13px 20px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-weight:900;
+}
+
+.ai button:disabled{
+    opacity:.6;
+    cursor:wait;
+}
+
+.result{
+    margin-top:18px;
+}
+
+.airesult{
+    padding:20px;
+    border-radius:15px;
+    background:#f8fafc;
+    color:#10204a;
+}
+
+.content{
+    margin-top:20px;
+    padding:25px;
+}
+
+.tablewrap{
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    padding:13px;
+    text-align:left;
+    background:#e2e8f0;
+    font-size:11px;
+}
+
+td{
+    padding:13px;
+    border-bottom:1px solid #e2e8f0;
+    font-size:11px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:9px;
+    font-weight:900;
+}
+
+.good{
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.warning{
+    background:#fef3c7;
+    color:#a16207;
+}
+
+.danger{
+    background:#fee2e2;
+    color:#b91c1c;
+}
+
+.info{
+    background:#dbeafe;
+    color:#1d4ed8;
+}
+
+.toolbar{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin:12px 0;
+}
+
+.toolbar button{
+    border:0;
+    border-radius:9px;
+    padding:9px 12px;
+    background:#2563eb;
+    color:white;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.notice{
+    padding:14px;
+    border-radius:12px;
+    background:#f8fafc;
+    border-left:4px solid #2563eb;
+    margin:10px 0;
+}
+
+@media(max-width:950px){
+    .grid,
+    .actions{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:600px){
+
+    .header{
+        padding:12px 15px;
+    }
+
+    .header-actions{
+        display:none;
+    }
+
+    .container{
+        padding:18px 15px;
+    }
+
+    .grid,
+    .actions{
+        grid-template-columns:1fr;
+    }
+
+    .hero h2{
+        font-size:24px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="brand">
+
+        <div class="logo">
+            DIET
+        </div>
+
+        <div>
+
+            <h1>
+                DIET Attendance AI
+            </h1>
+
+            <p>
+                HEAD OF DEPARTMENT PORTAL
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="header-actions">
+
+        <button onclick="goHome()">
+            Home
+        </button>
+
+        <button onclick="openTimetable()">
+            Timetable
+        </button>
+
+        <button onclick="logout()">
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+<section class="hero">
+
+    <h2 id="welcome">
+        HOD Portal
+    </h2>
+
+    <p id="description">
+        Department management dashboard.
+    </p>
+
+</section>
+
+
+<section class="grid">
+
+    <div class="card">
+
+        <div class="label">
+            HOD ID
+        </div>
+
+        <div class="value" id="hodId">
+            —
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="label">
+            HOD NAME
+        </div>
+
+        <div class="value" id="hodName">
+            —
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="label">
+            DEPARTMENT
+        </div>
+
+        <div class="value" id="hodDepartment">
+            —
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="label">
+            COLLEGE HOURS
+        </div>
+
+        <div class="value">
+            09:00–16:30
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="actions">
+
+<button class="action" onclick="showOverview()">
+
+    <div class="icon">
+        🏢
+    </div>
+
+    <div class="title">
+        Department Overview
+    </div>
+
+    <div class="text">
+        Live attendance statistics.
+    </div>
+
+</button>
+
+
+<button class="action" onclick="showStudents()">
+
+    <div class="icon">
+        👨‍🎓
+    </div>
+
+    <div class="title">
+        Students
+    </div>
+
+    <div class="text">
+        Department students and attendance.
+    </div>
+
+</button>
+
+
+<button class="action" onclick="showFaculty()">
+
+    <div class="icon">
+        👨‍🏫
+    </div>
+
+    <div class="title">
+        Faculty
+    </div>
+
+    <div class="text">
+        Department faculty directory.
+    </div>
+
+</button>
+
+
+<button class="action" onclick="showAnalytics()">
+
+    <div class="icon">
+        📊
+    </div>
+
+    <div class="title">
+        Attendance Analytics
+    </div>
+
+    <div class="text">
+        Real attendance records.
+    </div>
+
+</button>
+
+
+<button class="action" onclick="showLowAttendance()">
+
+    <div class="icon">
+        ⚠️
+    </div>
+
+    <div class="title">
+        Low Attendance
+    </div>
+
+    <div class="text">
+        Students below 75%.
+    </div>
+
+</button>
+
+
+<button class="action" onclick="showReports()">
+
+    <div class="icon">
+        📑
+    </div>
+
+    <div class="title">
+        Reports
+    </div>
+
+    <div class="text">
+        Department report view.
+    </div>
+
+</button>
+
+
+<button class="action" onclick="openTimetable()">
+
+    <div class="icon">
+        🗓️
+    </div>
+
+    <div class="title">
+        Timetable
+    </div>
+
+    <div class="text">
+        Department timetable.
+    </div>
+
+</button>
+
+
+<button class="action" onclick="showProfile()">
+
+    <div class="icon">
+        👤
+    </div>
+
+    <div class="title">
+        My Profile
+    </div>
+
+    <div class="text">
+        HOD information.
+    </div>
+
+</button>
+
+</section>
+
+
+<section class="ai">
+
+    <h2>
+        ✦ AI Department Assistant
+    </h2>
+
+    <p>
+        Analyze the department's current recorded attendance.
+    </p>
+
+    <button
+        id="aiButton"
+        onclick="analyzeWithAI()"
+    >
+        ✦ Analyze With AI
+    </button>
+
+    <div
+        id="aiResult"
+        class="result"
+    ></div>
+
+</section>
+
+
+<section
+    id="content"
+    class="content"
+>
+
+    <h2>
+        Department Overview
+    </h2>
+
+    <p>
+        Choose a module above.
+    </p>
+
+</section>
+
+</main>
+
+
+<script>
+
+"use strict";
+
+
+const API = "/api";
+const LOW = 75;
+
+
+function getUser(){
+
+    try{
+
+        return JSON.parse(
+
+            sessionStorage.getItem(
+                "authenticatedUser"
+            )
+
+            ||
+
+            localStorage.getItem(
+                "authenticatedUser"
+            )
+
+            ||
+
+            sessionStorage.getItem(
+                "attendanceUser"
+            )
+
+            ||
+
+            localStorage.getItem(
+                "attendanceUser"
+            )
+
+            ||
+
+            "null"
+
+        );
+
+    }
+
+    catch(error){
+
+        return null;
+
+    }
+
+}
+
+
+const me = getUser();
+
+
+if(!me){
+
+    location.href = "/login.html";
+
+}
+
+
+const hodId =
+    me?.id || "—";
+
+
+const hodName =
+    me?.name || "HOD";
+
+
+const department =
+    me?.department || "IT";
+
+
+document.getElementById(
+    "welcome"
+).textContent =
+    "Welcome, " + hodName;
+
+
+document.getElementById(
+    "description"
+).textContent =
+    department +
+    " · Department Management Dashboard";
+
+
+document.getElementById(
+    "hodId"
+).textContent =
+    hodId;
+
+
+document.getElementById(
+    "hodName"
+).textContent =
+    hodName;
+
+
+document.getElementById(
+    "hodDepartment"
+).textContent =
+    department;
+
+
+const content =
+    document.getElementById(
+        "content"
+    );
+
+
+async function get(url){
+
+    const response =
+        await fetch(url);
+
+    if(!response.ok){
+
+        throw new Error(
+            "Request failed: " +
+            response.status
+        );
+
+    }
+
+    return response.json();
+
+}
+
+
+function esc(value){
+
+    return String(value ?? "")
+
+        .replace(/&/g,"&amp;")
+
+        .replace(/</g,"&lt;")
+
+        .replace(/>/g,"&gt;")
+
+        .replace(/"/g,"&quot;")
+
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function pct(present,total){
+
+    return total
+        ? Math.round(
+            present * 100 / total
+        )
+        : 0;
+
+}
+
+
+function badgeClass(percent){
+
+    if(percent >= LOW)
+        return "good";
+
+    if(percent >= 60)
+        return "warning";
+
+    return "danger";
+
+}
+
+
+function scroll(){
+
+    content.scrollIntoView({
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+async function departmentData(){
+
+    return get(
+        API +
+        "/attendance/department/" +
+        encodeURIComponent(
+            department
+        )
+    );
+
+}
+
+
+async function studentsData(){
+
+    return get(
+        API +
+        "/attendance/students/" +
+        encodeURIComponent(
+            department
+        )
+    );
+
+}
+
+
+function recordsFrom(data){
+
+    if(Array.isArray(data))
+        return data;
+
+    return data.records ||
+           data.attendance ||
+           data.data ||
+           [];
+
+}
+
+
+async function buildStudentStats(
+    students,
+    records
+){
+
+    const list =
+        Array.isArray(students)
+        ? students
+        : (
+            students.students ||
+            students.data ||
+            students.people ||
+            []
+        );
+
+
+    return list
+
+        .filter(
+            student =>
+                String(
+                    student.role ||
+                    "STUDENT"
+                ).toUpperCase()
+                ===
+                "STUDENT"
+        )
+
+        .map(student => {
+
+            const studentRecords =
+                records.filter(
+                    record =>
+                        String(
+                            record.studentId
+                        ).toLowerCase()
+                        ===
+                        String(
+                            student.id
+                        ).toLowerCase()
+                );
+
+
+            const present =
+                studentRecords.filter(
+                    record =>
+                        String(
+                            record.status
+                        ).toUpperCase()
+                        ===
+                        "PRESENT"
+                ).length;
+
+
+            const total =
+                studentRecords.length;
+
+
+            return {
+
+                ...student,
+
+                total,
+
+                present,
+
+                absent:
+                    total - present,
+
+                percent:
+                    pct(
+                        present,
+                        total
+                    )
+
+            };
+
+        });
+
+}
+
+
+async function showOverview(){
+
+    content.innerHTML =
+        "<h2>🏢 Loading...</h2>";
+
+    try{
+
+        const attendance =
+            recordsFrom(
+                await departmentData()
+            );
+
+
+        const present =
+            attendance.filter(
+                record =>
+                    String(
+                        record.status
+                    ).toUpperCase()
+                    ===
+                    "PRESENT"
+            ).length;
+
+
+        const students =
+            await studentsData();
+
+
+        const stats =
+            await buildStudentStats(
+                students,
+                attendance
+            );
+
+
+        const low =
+            stats.filter(
+                student =>
+                    student.total &&
+                    student.percent < LOW
+            ).length;
+
+
+        const ids =
+            new Set(
+                attendance.map(
+                    record =>
+                        record.studentId
+                )
+            );
+
+
+        content.innerHTML = `
+
+            <h2>
+                🏢 Department Overview
+            </h2>
+
+            <p>
+                ${esc(department)}
+            </p>
+
+            <div class="grid">
+
+                <div class="card">
+
+                    <div class="label">
+                        STUDENTS
+                    </div>
+
+                    <div class="value">
+                        ${ids.size}
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="label">
+                        RECORDED CLASSES
+                    </div>
+
+                    <div class="value">
+                        ${attendance.length}
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="label">
+                        PRESENT RATE
+                    </div>
+
+                    <div class="value">
+                        ${pct(
+                            present,
+                            attendance.length
+                        )}%
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="label">
+                        LOW ATTENDANCE
+                    </div>
+
+                    <div class="value">
+                        ${low}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="notice">
+
+                Only attendance actually recorded
+                by faculty is included.
+
+            </div>
+
+        `;
+
+    }
+
+    catch(error){
+
+        content.innerHTML = `
+
+            <h2>
+                Unable to load department
+            </h2>
+
+            <p>
+                ${esc(error.message)}
+            </p>
+
+        `;
+
+    }
+
+    scroll();
+
+}
+
+
+async function showStudents(){
+
+    content.innerHTML =
+        "<h2>👨‍🎓 Loading students...</h2>";
+
+    try{
+
+        const [
+            students,
+            attendanceData
+        ] = await Promise.all([
+
+            studentsData(),
+
+            departmentData()
+
+        ]);
+
+
+        const attendance =
+            recordsFrom(
+                attendanceData
+            );
+
+
+        const stats =
+            await buildStudentStats(
+                students,
+                attendance
+            );
+
+
+        content.innerHTML = `
+
+            <h2>
+                👨‍🎓 Department Students
+            </h2>
+
+            <div class="toolbar">
+
+                <button
+                    onclick="showStudents()"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+
+            <div class="tablewrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Name</th>
+
+                            <th>Attendance</th>
+
+                            <th>Present</th>
+
+                            <th>Absent</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            stats.map(
+                                student => `
+
+                                <tr>
+
+                                    <td>
+                                        ${esc(student.id)}
+                                    </td>
+
+                                    <td>
+                                        ${esc(student.name)}
+                                    </td>
+
+                                    <td>
+
+                                        <span
+                                            class="badge ${
+                                                student.total
+                                                ? badgeClass(
+                                                    student.percent
+                                                )
+                                                : "info"
+                                            }"
+                                        >
+
+                                            ${
+                                                student.total
+                                                ? student.percent + "%"
+                                                : "NO RECORDS"
+                                            }
+
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+                                        ${student.present}
+                                    </td>
+
+                                    <td>
+                                        ${student.absent}
+                                    </td>
+
+                                    <td>
+                                        ${
+                                            student.total
+                                            ? (
+                                                student.percent >= LOW
+                                                ? "OK"
+                                                : "LOW"
+                                            )
+                                            : "NOT RECORDED"
+                                        }
+                                    </td>
+
+                                </tr>
+
+                            `
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+    }
+
+    catch(error){
+
+        content.innerHTML = `
+
+            <h2>
+                Unable to load students
+            </h2>
+
+            <p>
+                ${esc(error.message)}
+            </p>
+
+        `;
+
+    }
+
+    scroll();
+
+}
+
+
+async function showFaculty(){
+
+    content.innerHTML =
+        "<h2>👨‍🏫 Loading faculty...</h2>";
+
+    try{
+
+        const data =
+            await get(
+                "/api/directory"
+            );
+
+
+        let faculty =
+            Array.isArray(data)
+            ? data
+            : (
+                data.people ||
+                data.users ||
+                data.data ||
+                []
+            );
+
+
+        faculty =
+            faculty.filter(
+                person =>
+
+                    String(
+                        person.role
+                    ).toUpperCase()
+                    ===
+                    "FACULTY"
+
+                    &&
+
+                    String(
+                        person.department
+                    ).toLowerCase()
+                    ===
+                    department.toLowerCase()
+            );
+
+
+        content.innerHTML = `
+
+            <h2>
+                👨‍🏫 Department Faculty
+            </h2>
+
+            <div class="tablewrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Teacher ID
+                            </th>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Designation
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            faculty.map(
+                                person => `
+
+                                <tr>
+
+                                    <td>
+                                        ${esc(person.id)}
+                                    </td>
+
+                                    <td>
+                                        ${esc(person.name)}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            person.designation ||
+                                            "Faculty"
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(person.email)}
+                                    </td>
+
+                                    <td>
+
+                                        <span class="badge good">
+                                            ACTIVE
+                                        </span>
+
+                                    </td>
+
+                                </tr>
+
+                            `
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+    }
+
+    catch(error){
+
+        content.innerHTML = `
+
+            <h2>
+                Faculty endpoint unavailable
+            </h2>
+
+            <p>
+                ${esc(error.message)}
+            </p>
+
+        `;
+
+    }
+
+    scroll();
+
+}
+
+
+async function showAnalytics(){
+
+    content.innerHTML =
+        "<h2>📊 Loading analytics...</h2>";
+
+    try{
+
+        const data =
+            await departmentData();
+
+
+        const attendance =
+            recordsFrom(data);
+
+
+        const present =
+            attendance.filter(
+                record =>
+                    String(
+                        record.status
+                    ).toUpperCase()
+                    ===
+                    "PRESENT"
+            ).length;
+
+
+        const absent =
+            attendance.length -
+            present;
+
+
+        content.innerHTML = `
+
+            <h2>
+                📊 Attendance Analytics
+            </h2>
+
+            <div class="grid">
+
+                <div class="card">
+
+                    <div class="label">
+                        TOTAL RECORDS
+                    </div>
+
+                    <div class="value">
+                        ${attendance.length}
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="label">
+                        PRESENT
+                    </div>
+
+                    <div class="value">
+                        ${present}
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="label">
+                        ABSENT
+                    </div>
+
+                    <div class="value">
+                        ${absent}
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="label">
+                        PRESENT RATE
+                    </div>
+
+                    <div class="value">
+                        ${pct(
+                            present,
+                            attendance.length
+                        )}%
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="tablewrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+
+                            <th>Student</th>
+
+                            <th>Subject</th>
+
+                            <th>Status</th>
+
+                            <th>Marked By</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            attendance
+                            .slice()
+                            .reverse()
+                            .map(
+                                record => `
+
+                                <tr>
+
+                                    <td>
+                                        ${esc(record.date)}
+                                    </td>
+
+                                    <td>
+                                        ${esc(
+                                            record.studentName ||
+                                            record.studentId
+                                        )}
+                                    </td>
+
+                                    <td>
+                                        ${esc(record.subject)}
+                                    </td>
+
+                                    <td>
+
+                                        <span
+                                            class="badge ${
+                                                String(
+                                                    record.status
+                                                ).toUpperCase()
+                                                ===
+                                                "PRESENT"
+                                                ? "good"
+                                                : "danger"
+                                            }"
+                                        >
+
+                                            ${esc(
+                                                record.status
+                                            )}
+
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+                                        ${esc(record.markedBy)}
+                                    </td>
+
+                                </tr>
+
+                            `
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+    }
+
+    catch(error){
+
+        content.innerHTML = `
+
+            <h2>
+                Unable to load analytics
+            </h2>
+
+            <p>
+                ${esc(error.message)}
+            </p>
+
+        `;
+
+    }
+
+    scroll();
+
+}
+
+
+async function showLowAttendance(){
+
+    content.innerHTML =
+        "<h2>⚠️ Loading...</h2>";
+
+    try{
+
+        const [
+            students,
+            attendanceData
+        ] = await Promise.all([
+
+            studentsData(),
+
+            departmentData()
+
+        ]);
+
+
+        const attendance =
+            recordsFrom(
+                attendanceData
+            );
+
+
+        const stats =
+            await buildStudentStats(
+                students,
+                attendance
+            );
+
+
+        const low =
+            stats.filter(
+                student =>
+                    student.total &&
+                    student.percent < LOW
+            );
+
+
+        content.innerHTML = `
+
+            <h2>
+                ⚠️ Low Attendance Students
+            </h2>
+
+            <p>
+                Students below ${LOW}% based on
+                recorded attendance.
+            </p>
+
+            <div class="tablewrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Name</th>
+
+                            <th>Attendance</th>
+
+                            <th>Present</th>
+
+                            <th>Absent</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${
+                            low.map(
+                                student => `
+
+                                <tr>
+
+                                    <td>
+                                        ${esc(student.id)}
+                                    </td>
+
+                                    <td>
+                                        ${esc(student.name)}
+                                    </td>
+
+                                    <td>
+
+                                        <span
+                                            class="badge danger"
+                                        >
+                                            ${student.percent}%
+                                        </span>
+
+                                    </td>
+
+                                    <td>
+                                        ${student.present}
+                                    </td>
+
+                                    <td>
+                                        ${student.absent}
+                                    </td>
+
+                                </tr>
+
+                            `
+                            ).join("")
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+    }
+
+    catch(error){
+
+        content.innerHTML = `
+
+            <h2>
+                Unable to load
+            </h2>
+
+            <p>
+                ${esc(error.message)}
+            </p>
+
+        `;
+
+    }
+
+    scroll();
+
+}
+
+
+async function showReports(){
+
+    await showAnalytics();
+
+}
+
+
+function showProfile(){
+
+    content.innerHTML = `
+
+        <h2>
+            👤 HOD Profile
+        </h2>
+
+        <table>
+
+            <tr>
+                <td>ID</td>
+                <td>${esc(hodId)}</td>
+            </tr>
+
+            <tr>
+                <td>Name</td>
+                <td>${esc(hodName)}</td>
+            </tr>
+
+            <tr>
+                <td>Department</td>
+                <td>${esc(department)}</td>
+            </tr>
+
+            <tr>
+                <td>Role</td>
+                <td>HOD</td>
+            </tr>
+
+            <tr>
+                <td>College Hours</td>
+                <td>09:00–16:30</td>
+            </tr>
+
+            <tr>
+                <td>Short Break</td>
+                <td>10:40–10:50</td>
+            </tr>
+
+            <tr>
+                <td>Lunch</td>
+                <td>12:20–13:10</td>
+            </tr>
+
+        </table>
+
+    `;
+
+    scroll();
+
+}
+
+
+function openTimetable(){
+
+    location.href =
+        "/timetable.html?department=" +
+        encodeURIComponent(
+            department
+        );
+
+}
+
+
+async function analyzeWithAI(){
+
+    const button =
+        document.getElementById(
+            "aiButton"
+        );
+
+
+    const result =
+        document.getElementById(
+            "aiResult"
+        );
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "🤖 AI ANALYZING...";
+
+
+    try{
+
+        const data =
+            await departmentData();
+
+
+        const attendance =
+            recordsFrom(data);
+
+
+        const present =
+            attendance.filter(
+                record =>
+                    String(
+                        record.status
+                    ).toUpperCase()
+                    ===
+                    "PRESENT"
+            ).length;
+
+
+        const attendancePercent =
+            pct(
+                present,
+                attendance.length
+            );
+
+
+        const response =
+            await fetch(
+                API + "/ai/analyze",
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            name:
+                                hodName,
+
+                            role:
+                                "HOD",
+
+                            department:
+                                department,
+
+                            attendance:
+                                attendancePercent
+
+                        })
+
+                }
+            );
+
+
+        const ai =
+            await response.json();
+
+
+        if(
+            !response.ok ||
+            !ai.success
+        ){
+
+            throw new Error(
+                ai.message ||
+                "AI analysis failed."
+            );
+
+        }
+
+
+        result.innerHTML = `
+
+            <div class="airesult">
+
+                <h3>
+                    🤖 DIET AI Analysis
+                </h3>
+
+                <p>
+                    ${esc(
+                        ai.summary ||
+                        "Analysis completed."
+                    )}
+                </p>
+
+                <p>
+                    <strong>
+                        Attendance:
+                    </strong>
+
+                    ${esc(
+                        ai.attendance ??
+                        attendancePercent
+                    )}%
+
+                </p>
+
+                <p>
+                    <strong>
+                        Status:
+                    </strong>
+
+                    ${esc(
+                        ai.status ||
+                        "ANALYZED"
+                    )}
+
+                </p>
+
+
+                <h4>
+                    Findings
+                </h4>
+
+                <ul>
+
+                    ${
+                        (
+                            ai.findings ||
+                            []
+                        )
+                        .map(
+                            item =>
+                                `<li>
+                                    ${esc(item)}
+                                </li>`
+                        )
+                        .join("")
+                        ||
+                        "<li>No findings.</li>"
+                    }
+
+                </ul>
+
+
+                <h4>
+                    Recommendations
+                </h4>
+
+                <ul>
+
+                    ${
+                        (
+                            ai.recommendations ||
+                            []
+                        )
+                        .map(
+                            item =>
+                                `<li>
+                                    ${esc(item)}
+                                </li>`
+                        )
+                        .join("")
+                        ||
+                        "<li>No recommendations.</li>"
+                    }
+
+                </ul>
+
+            </div>
+
+        `;
+
+    }
+
+    catch(error){
+
+        result.innerHTML = `
+
+            <div class="airesult">
+
+                <b>
+                    ❌ AI Error
+                </b>
+
+                <p>
+                    ${esc(
+                        error.message
+                    )}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+    finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "✦ Analyze With AI";
+
+    }
+
+}
+
+
+function goHome(){
+
+    location.href = "/";
+
+}
+
+
+function logout(){
+
+    sessionStorage.clear();
+
+    localStorage.clear();
+
+    location.href =
+        "/login.html";
+
+}
+
+
+showOverview();
+
+</script>
+
+</body>
+</html>

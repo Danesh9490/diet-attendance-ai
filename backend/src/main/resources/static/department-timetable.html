@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DIET Smart Attendance - Department Timetable</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #0b5ed7;
+            color: white;
+            padding: 20px 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            opacity: 0.9;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1450px;
+            margin: 25px auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 3px 14px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #0b5ed7;
+            font-size: 21px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field label {
+            font-weight: bold;
+            margin-bottom: 7px;
+            font-size: 14px;
+        }
+
+        .field input,
+        .field select {
+            padding: 11px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+            background: white;
+        }
+
+        .field input:focus,
+        .field select:focus {
+            border-color: #0b5ed7;
+            box-shadow: 0 0 0 2px rgba(11,94,215,0.1);
+        }
+
+        .button-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            border: none;
+            border-radius: 7px;
+            padding: 11px 18px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .btn-primary {
+            background: #0b5ed7;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #64748b;
+            color: white;
+        }
+
+        .btn-success {
+            background: #198754;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #111827;
+        }
+
+        .message {
+            display: none;
+            padding: 12px 15px;
+            border-radius: 7px;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+
+        .message.success {
+            display: block;
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .message.error {
+            display: block;
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .period-info {
+            display: none;
+            margin-top: 18px;
+            padding: 13px 16px;
+            background: #eff6ff;
+            border-left: 4px solid #0b5ed7;
+            border-radius: 5px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1150px;
+        }
+
+        th {
+            background: #0b5ed7;
+            color: white;
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 11px 10px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .summary-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+            padding: 17px;
+            text-align: center;
+        }
+
+        .summary-number {
+            font-size: 27px;
+            font-weight: bold;
+            color: #0b5ed7;
+        }
+
+        .summary-label {
+            margin-top: 5px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #0b5ed7;
+            font-weight: bold;
+        }
+
+        .day-badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 15px;
+            background: #e7f1ff;
+            color: #0b5ed7;
+            font-weight: bold;
+        }
+
+        .period-badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 15px;
+            background: #f1f5f9;
+            color: #334155;
+            font-weight: bold;
+        }
+
+        @media (max-width: 1000px) {
+
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 92%;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>DIET Smart Attendance</h1>
+    <p>Department-wise Timetable Management</p>
+</div>
+
+<div class="container">
+
+    <!-- TIMETABLE FORM -->
+    <div class="card">
+
+        <h2>Add / Update Department Timetable</h2>
+
+        <div class="form-grid">
+
+            <div class="field">
+                <label for="department">Department *</label>
+
+                <select id="department">
+
+                    <option value="">Select Department</option>
+
+                    <option value="IT">
+                        Information Technology
+                    </option>
+
+                    <option value="CSE">
+                        Computer Science and Engineering
+                    </option>
+
+                    <option value="ECE">
+                        Electronics and Communication Engineering
+                    </option>
+
+                    <option value="EEE">
+                        Electrical and Electronics Engineering
+                    </option>
+
+                    <option value="MECH">
+                        Mechanical Engineering
+                    </option>
+
+                    <option value="CIVIL">
+                        Civil Engineering
+                    </option>
+
+                    <option value="AI&DS">
+                        Artificial Intelligence & Data Science
+                    </option>
+
+                </select>
+            </div>
+
+
+            <div class="field">
+                <label for="day">Day *</label>
+
+                <select id="day">
+
+                    <option value="">Select Day</option>
+
+                    <option value="Monday">Monday</option>
+
+                    <option value="Tuesday">Tuesday</option>
+
+                    <option value="Wednesday">Wednesday</option>
+
+                    <option value="Thursday">Thursday</option>
+
+                    <option value="Friday">Friday</option>
+
+                    <option value="Saturday">Saturday</option>
+
+                </select>
+            </div>
+
+
+            <div class="field">
+                <label for="period">Period *</label>
+
+                <select id="period">
+
+                    <option value="">Select Period</option>
+
+                    <option value="1">Period 1</option>
+
+                    <option value="2">Period 2</option>
+
+                    <option value="3">Period 3</option>
+
+                    <option value="4">Period 4</option>
+
+                    <option value="5">Period 5</option>
+
+                    <option value="6">Period 6</option>
+
+                    <option value="7">Period 7</option>
+
+                    <option value="8">Period 8</option>
+
+                </select>
+            </div>
+
+
+            <div class="field">
+                <label for="subject">Subject *</label>
+
+                <input
+                    type="text"
+                    id="subject"
+                    placeholder="Enter subject">
+            </div>
+
+
+            <div class="field">
+                <label for="facultyId">Faculty ID</label>
+
+                <input
+                    type="text"
+                    id="facultyId"
+                    placeholder="Enter faculty ID">
+            </div>
+
+
+            <div class="field">
+                <label for="facultyName">Faculty Name</label>
+
+                <input
+                    type="text"
+                    id="facultyName"
+                    placeholder="Enter faculty name">
+            </div>
+
+
+            <div class="field">
+                <label for="startTime">Start Time</label>
+
+                <input
+                    type="time"
+                    id="startTime">
+            </div>
+
+
+            <div class="field">
+                <label for="endTime">End Time</label>
+
+                <input
+                    type="time"
+                    id="endTime">
+            </div>
+
+
+            <div class="field">
+                <label for="room">Room</label>
+
+                <input
+                    type="text"
+                    id="room"
+                    placeholder="Example: Room 101">
+            </div>
+
+        </div>
+
+
+        <div
+            id="periodInfo"
+            class="period-info">
+        </div>
+
+
+        <div class="button-row">
+
+            <button
+                class="btn-primary"
+                onclick="saveTimetable()">
+                Save / Update
+            </button>
+
+            <button
+                class="btn-secondary"
+                onclick="clearForm()">
+                Clear Form
+            </button>
+
+            <button
+                class="btn-success"
+                onclick="loadRecords()">
+                Refresh Records
+            </button>
+
+        </div>
+
+
+        <div
+            id="message"
+            class="message">
+        </div>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+
+    <div class="card">
+
+        <h2>Timetable Summary</h2>
+
+        <div class="summary-grid">
+
+            <div class="summary-box">
+
+                <div
+                    id="totalCount"
+                    class="summary-number">
+                    0
+                </div>
+
+                <div class="summary-label">
+                    Total Entries
+                </div>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <div
+                    id="departmentCount"
+                    class="summary-number">
+                    0
+                </div>
+
+                <div class="summary-label">
+                    Departments
+                </div>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <div
+                    id="facultyCount"
+                    class="summary-number">
+                    0
+                </div>
+
+                <div class="summary-label">
+                    Faculty
+                </div>
+
+            </div>
+
+
+            <div class="summary-box">
+
+                <div
+                    id="subjectCount"
+                    class="summary-number">
+                    0
+                </div>
+
+                <div class="summary-label">
+                    Subjects
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- FILTER -->
+
+    <div class="card">
+
+        <h2>Search / Filter Timetable</h2>
+
+        <div class="form-grid">
+
+            <div class="field">
+
+                <label for="filterDepartment">
+                    Department
+                </label>
+
+                <select
+                    id="filterDepartment"
+                    onchange="applyFilters()">
+
+                    <option value="">
+                        All Departments
+                    </option>
+
+                    <option value="IT">IT</option>
+
+                    <option value="CSE">CSE</option>
+
+                    <option value="ECE">ECE</option>
+
+                    <option value="EEE">EEE</option>
+
+                    <option value="MECH">MECH</option>
+
+                    <option value="CIVIL">CIVIL</option>
+
+                    <option value="AI&DS">AI&DS</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="filterDay">
+                    Day
+                </label>
+
+                <select
+                    id="filterDay"
+                    onchange="applyFilters()">
+
+                    <option value="">
+                        All Days
+                    </option>
+
+                    <option value="Monday">Monday</option>
+
+                    <option value="Tuesday">Tuesday</option>
+
+                    <option value="Wednesday">Wednesday</option>
+
+                    <option value="Thursday">Thursday</option>
+
+                    <option value="Friday">Friday</option>
+
+                    <option value="Saturday">Saturday</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="filterSubject">
+                    Subject
+                </label>
+
+                <input
+                    type="text"
+                    id="filterSubject"
+                    placeholder="Search subject"
+                    oninput="applyFilters()">
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="filterFaculty">
+                    Faculty
+                </label>
+
+                <input
+                    type="text"
+                    id="filterFaculty"
+                    placeholder="Search faculty"
+                    oninput="applyFilters()">
+
+            </div>
+
+        </div>
+
+
+        <div class="button-row">
+
+            <button
+                class="btn-warning"
+                onclick="resetFilters()">
+                Reset Filters
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- RECORDS -->
+
+    <div class="card">
+
+        <h2>Department Timetable Records</h2>
+
+        <div
+            id="loading"
+            class="loading">
+            Loading timetable records...
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>Department</th>
+
+                    <th>Day</th>
+
+                    <th>Period</th>
+
+                    <th>Time</th>
+
+                    <th>Subject</th>
+
+                    <th>Faculty ID</th>
+
+                    <th>Faculty Name</th>
+
+                    <th>Room</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody id="recordsBody">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const API_URL =
+        "/api/department-timetable";
+
+
+    let allRecords = [];
+
+
+    /*
+     * College timetable periods
+     */
+    const periodTimes = {
+
+        1: {
+            start: "09:00",
+            end: "09:50"
+        },
+
+        2: {
+            start: "09:50",
+            end: "10:40"
+        },
+
+        3: {
+            start: "10:50",
+            end: "11:40"
+        },
+
+        4: {
+            start: "11:40",
+            end: "12:20"
+        },
+
+        5: {
+            start: "13:10",
+            end: "14:00"
+        },
+
+        6: {
+            start: "14:00",
+            end: "14:50"
+        },
+
+        7: {
+            start: "14:50",
+            end: "15:40"
+        },
+
+        8: {
+            start: "15:40",
+            end: "16:30"
+        }
+
+    };
+
+
+    /*
+     * Page startup
+     */
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            loadRecords();
+
+        }
+    );
+
+
+    /*
+     * Automatically set time
+     * when period is selected
+     */
+    document.getElementById("period")
+        .addEventListener(
+            "change",
+            function () {
+
+                const selectedPeriod =
+                    this.value;
+
+                const info =
+                    document.getElementById(
+                        "periodInfo"
+                    );
+
+
+                if (!selectedPeriod) {
+
+                    info.style.display =
+                        "none";
+
+                    return;
+                }
+
+
+                const time =
+                    periodTimes[selectedPeriod];
+
+
+                if (!time) {
+                    return;
+                }
+
+
+                document.getElementById(
+                    "startTime"
+                ).value = time.start;
+
+
+                document.getElementById(
+                    "endTime"
+                ).value = time.end;
+
+
+                info.innerHTML =
+                    "<strong>Period " +
+                    selectedPeriod +
+                    " timetable:</strong> " +
+                    time.start +
+                    " - " +
+                    time.end;
+
+
+                info.style.display =
+                    "block";
+
+            }
+        );
+
+
+    /*
+     * Display messages
+     */
+    function showMessage(
+        message,
+        type
+    ) {
+
+        const element =
+            document.getElementById(
+                "message"
+            );
+
+
+        element.className =
+            "message " + type;
+
+
+        element.textContent =
+            message;
+
+
+        setTimeout(
+            function () {
+
+                element.className =
+                    "message";
+
+            },
+            4000
+        );
+
+    }
+
+
+    /*
+     * Save / Update timetable
+     */
+    async function saveTimetable() {
+
+        const department =
+            document.getElementById(
+                "department"
+            ).value;
+
+
+        const day =
+            document.getElementById(
+                "day"
+            ).value;
+
+
+        const period =
+            document.getElementById(
+                "period"
+            ).value;
+
+
+        const subject =
+            document.getElementById(
+                "subject"
+            ).value.trim();
+
+
+        const facultyId =
+            document.getElementById(
+                "facultyId"
+            ).value.trim();
+
+
+        const facultyName =
+            document.getElementById(
+                "facultyName"
+            ).value.trim();
+
+
+        const startTime =
+            document.getElementById(
+                "startTime"
+            ).value;
+
+
+        const endTime =
+            document.getElementById(
+                "endTime"
+            ).value;
+
+
+        const room =
+            document.getElementById(
+                "room"
+            ).value.trim();
+
+
+        if (!department) {
+
+            showMessage(
+                "Please select a department.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (!day) {
+
+            showMessage(
+                "Please select a day.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (!period) {
+
+            showMessage(
+                "Please select a period.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if (!subject) {
+
+            showMessage(
+                "Subject is required.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const data = {
+
+            department:
+                department,
+
+            day:
+                day,
+
+            period:
+                Number(period),
+
+            subject:
+                subject,
+
+            facultyId:
+                facultyId,
+
+            facultyName:
+                facultyName,
+
+            startTime:
+                startTime,
+
+            endTime:
+                endTime,
+
+            room:
+                room
+
+        };
+
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL + "/save",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify(data)
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                showMessage(
+                    result.message ||
+                    "Unable to save timetable.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            showMessage(
+                "Department timetable saved successfully.",
+                "success"
+            );
+
+
+            loadRecords();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "Cannot connect to timetable server.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /*
+     * Load all timetable records
+     */
+    async function loadRecords() {
+
+        const loading =
+            document.getElementById(
+                "loading"
+            );
+
+
+        loading.style.display =
+            "block";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL + "/all"
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Unable to load records."
+                );
+
+            }
+
+
+            allRecords =
+                result.records || [];
+
+
+            applyFilters();
+
+        } catch (error) {
+
+            console.error(error);
+
+            allRecords = [];
+
+            renderRecords([]);
+
+            showMessage(
+                "Unable to load timetable records.",
+                "error"
+            );
+
+        } finally {
+
+            loading.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    /*
+     * Apply filters
+     */
+    function applyFilters() {
+
+        const department =
+            document.getElementById(
+                "filterDepartment"
+            ).value;
+
+
+        const day =
+            document.getElementById(
+                "filterDay"
+            ).value;
+
+
+        const subject =
+            document.getElementById(
+                "filterSubject"
+            ).value
+                .trim()
+                .toLowerCase();
+
+
+        const faculty =
+            document.getElementById(
+                "filterFaculty"
+            ).value
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            allRecords.filter(
+                function (record) {
+
+                    const departmentMatch =
+                        !department ||
+                        record.department ===
+                        department;
+
+
+                    const dayMatch =
+                        !day ||
+                        record.day === day;
+
+
+                    const subjectMatch =
+                        !subject ||
+                        (
+                            record.subject &&
+                            record.subject
+                                .toLowerCase()
+                                .includes(subject)
+                        );
+
+
+                    const facultyText =
+                        (
+                            record.facultyName ||
+                            ""
+                        ).toLowerCase();
+
+
+                    const facultyId =
+                        (
+                            record.facultyId ||
+                            ""
+                        ).toLowerCase();
+
+
+                    const facultyMatch =
+                        !faculty ||
+                        facultyText.includes(
+                            faculty
+                        ) ||
+                        facultyId.includes(
+                            faculty
+                        );
+
+
+                    return (
+                        departmentMatch &&
+                        dayMatch &&
+                        subjectMatch &&
+                        facultyMatch
+                    );
+
+                }
+            );
+
+
+        renderRecords(filtered);
+
+        updateSummary(filtered);
+
+    }
+
+
+    /*
+     * Render table
+     */
+    function renderRecords(records) {
+
+        const body =
+            document.getElementById(
+                "recordsBody"
+            );
+
+
+        if (!records.length) {
+
+            body.innerHTML = `
+                <tr>
+                    <td colspan="9" class="empty">
+                        No timetable records found.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        /*
+         * Sort by day and period
+         */
+        const dayOrder = {
+
+            Monday: 1,
+            Tuesday: 2,
+            Wednesday: 3,
+            Thursday: 4,
+            Friday: 5,
+            Saturday: 6
+
+        };
+
+
+        records.sort(
+            function (a, b) {
+
+                const dayDifference =
+                    (
+                        dayOrder[a.day] || 99
+                    ) -
+                    (
+                        dayOrder[b.day] || 99
+                    );
+
+
+                if (dayDifference !== 0) {
+                    return dayDifference;
+                }
+
+
+                return (
+                    (a.period || 0) -
+                    (b.period || 0)
+                );
+
+            }
+        );
+
+
+        body.innerHTML =
+            records.map(
+                function (record) {
+
+                    return `
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    ${escapeHtml(
+                                        record.department ||
+                                        "-"
+                                    )}
+                                </strong>
+                            </td>
+
+                            <td>
+                                <span class="day-badge">
+                                    ${escapeHtml(
+                                        record.day ||
+                                        "-"
+                                    )}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="period-badge">
+                                    Period
+                                    ${record.period || "-"}
+                                </span>
+                            </td>
+
+                            <td>
+                                ${
+                                    escapeHtml(
+                                        record.startTime ||
+                                        "-"
+                                    )
+                                }
+                                -
+                                ${
+                                    escapeHtml(
+                                        record.endTime ||
+                                        "-"
+                                    )
+                                }
+                            </td>
+
+                            <td>
+                                <strong>
+                                    ${escapeHtml(
+                                        record.subject ||
+                                        "-"
+                                    )}
+                                </strong>
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.facultyId ||
+                                    "-"
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.facultyName ||
+                                    "-"
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.room ||
+                                    "-"
+                                )}
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="btn-primary"
+                                    onclick="editRecord('${record.id}')">
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="btn-danger"
+                                    onclick="deleteRecord('${record.id}')">
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            ).join("");
+
+    }
+
+
+    /*
+     * Edit existing record
+     */
+    function editRecord(id) {
+
+        const record =
+            allRecords.find(
+                function (item) {
+                    return item.id === id;
+                }
+            );
+
+
+        if (!record) {
+
+            showMessage(
+                "Timetable record not found.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        document.getElementById(
+            "department"
+        ).value =
+            record.department || "";
+
+
+        document.getElementById(
+            "day"
+        ).value =
+            record.day || "";
+
+
+        document.getElementById(
+            "period"
+        ).value =
+            record.period || "";
+
+
+        document.getElementById(
+            "subject"
+        ).value =
+            record.subject || "";
+
+
+        document.getElementById(
+            "facultyId"
+        ).value =
+            record.facultyId || "";
+
+
+        document.getElementById(
+            "facultyName"
+        ).value =
+            record.facultyName || "";
+
+
+        document.getElementById(
+            "startTime"
+        ).value =
+            record.startTime || "";
+
+
+        document.getElementById(
+            "endTime"
+        ).value =
+            record.endTime || "";
+
+
+        document.getElementById(
+            "room"
+        ).value =
+            record.room || "";
+
+
+        const info =
+            document.getElementById(
+                "periodInfo"
+            );
+
+
+        info.innerHTML =
+            "Editing existing timetable entry. " +
+            "Saving the same Department + Day + Period " +
+            "will update it.";
+
+
+        info.style.display =
+            "block";
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    /*
+     * Delete record
+     */
+    async function deleteRecord(id) {
+
+        if (!id) {
+
+            showMessage(
+                "Invalid timetable record.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const confirmed =
+            confirm(
+                "Are you sure you want to delete this timetable entry?"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    API_URL +
+                    "/" +
+                    encodeURIComponent(id),
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                showMessage(
+                    "Unable to delete timetable entry.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            showMessage(
+                "Timetable entry deleted successfully.",
+                "success"
+            );
+
+
+            loadRecords();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "Cannot connect to timetable server.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /*
+     * Clear form
+     */
+    function clearForm() {
+
+        document.getElementById(
+            "department"
+        ).value = "";
+
+
+        document.getElementById(
+            "day"
+        ).value = "";
+
+
+        document.getElementById(
+            "period"
+        ).value = "";
+
+
+        document.getElementById(
+            "subject"
+        ).value = "";
+
+
+        document.getElementById(
+            "facultyId"
+        ).value = "";
+
+
+        document.getElementById(
+            "facultyName"
+        ).value = "";
+
+
+        document.getElementById(
+            "startTime"
+        ).value = "";
+
+
+        document.getElementById(
+            "endTime"
+        ).value = "";
+
+
+        document.getElementById(
+            "room"
+        ).value = "";
+
+
+        document.getElementById(
+            "periodInfo"
+        ).style.display = "none";
+
+    }
+
+
+    /*
+     * Reset filters
+     */
+    function resetFilters() {
+
+        document.getElementById(
+            "filterDepartment"
+        ).value = "";
+
+
+        document.getElementById(
+            "filterDay"
+        ).value = "";
+
+
+        document.getElementById(
+            "filterSubject"
+        ).value = "";
+
+
+        document.getElementById(
+            "filterFaculty"
+        ).value = "";
+
+
+        applyFilters();
+
+    }
+
+
+    /*
+     * Escape HTML
+     */
+    function escapeHtml(value) {
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    /*
+     * Update summary
+     */
+    function updateSummary(records) {
+
+        const total =
+            records.length;
+
+
+        const departments =
+            new Set(
+                records
+                    .map(
+                        function (r) {
+                            return r.department;
+                        }
+                    )
+                    .filter(Boolean)
+            ).size;
+
+
+        const faculty =
+            new Set(
+                records
+                    .map(
+                        function (r) {
+                            return r.facultyId ||
+                                   r.facultyName;
+                        }
+                    )
+                    .filter(Boolean)
+            ).size;
+
+
+        const subjects =
+            new Set(
+                records
+                    .map(
+                        function (r) {
+                            return r.subject;
+                        }
+                    )
+                    .filter(Boolean)
+            ).size;
+
+
+        document.getElementById(
+            "totalCount"
+        ).textContent =
+            total;
+
+
+        document.getElementById(
+            "departmentCount"
+        ).textContent =
+            departments;
+
+
+        document.getElementById(
+            "facultyCount"
+        ).textContent =
+            faculty;
+
+
+        document.getElementById(
+            "subjectCount"
+        ).textContent =
+            subjects;
+
+    }
+
+</script>
+
+</body>
+</html>

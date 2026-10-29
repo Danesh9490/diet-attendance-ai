@@ -1,0 +1,2228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+>
+
+<title>DIET Attendance AI | Student</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+
+    margin:0;
+
+    font-family:
+        Segoe UI,
+        Arial,
+        sans-serif;
+
+    color:#10204a;
+
+    min-height:100vh;
+
+    background:
+        linear-gradient(
+            rgba(0,20,55,.42),
+            rgba(0,20,55,.62)
+        ),
+        url(
+            "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2400&q=95"
+        )
+        center/cover fixed no-repeat;
+}
+
+header{
+
+    min-height:72px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:10px 28px;
+
+    background:
+        rgba(3,25,65,.96);
+
+    color:white;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:10;
+
+}
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.logo{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:13px;
+
+    display:grid;
+
+    place-items:center;
+
+    font-weight:900;
+
+    font-size:12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #06b6d4
+        );
+
+}
+
+.brand h1{
+
+    margin:0;
+
+    font-size:18px;
+
+}
+
+.brand p{
+
+    margin:2px 0 0;
+
+    font-size:9px;
+
+    color:#bfdbfe;
+
+    font-weight:800;
+
+}
+
+nav{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    justify-content:flex-end;
+
+}
+
+nav button{
+
+    border:0;
+
+    padding:10px 14px;
+
+    border-radius:9px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    color:white;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    margin-left:5px;
+
+}
+
+nav button:hover{
+
+    background:
+        rgba(255,255,255,.22);
+
+}
+
+main{
+
+    max-width:1400px;
+
+    margin:auto;
+
+    padding:28px;
+
+}
+
+.hero,
+.card,
+.panel{
+
+    background:
+        rgba(255,255,255,.97);
+
+    border-radius:20px;
+
+    box-shadow:
+        0 15px 45px
+        rgba(0,0,0,.16);
+
+}
+
+.hero{
+
+    padding:28px;
+
+}
+
+.hero h2{
+
+    margin:0;
+
+    font-size:29px;
+
+}
+
+.hero p{
+
+    color:#64748b;
+
+}
+
+.cards{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:14px;
+
+    margin-top:18px;
+
+}
+
+.card{
+
+    padding:19px;
+
+}
+
+.label{
+
+    font-size:9px;
+
+    color:#64748b;
+
+    font-weight:900;
+
+    letter-spacing:.5px;
+
+}
+
+.value{
+
+    margin-top:7px;
+
+    font-weight:900;
+
+    font-size:16px;
+
+}
+
+.panel{
+
+    margin-top:20px;
+
+    padding:24px;
+
+}
+
+.panel h2{
+
+    margin-top:0;
+
+}
+
+.panel-header{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+}
+
+.stats{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:14px;
+
+}
+
+.stat{
+
+    padding:20px;
+
+    border-radius:15px;
+
+    background:#f8fafc;
+
+}
+
+.stat .number{
+
+    font-size:25px;
+
+    font-weight:900;
+
+    margin-top:6px;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.table-wrap{
+
+    width:100%;
+
+    overflow-x:auto;
+
+    margin-top:18px;
+
+}
+
+th{
+
+    background:#10204a;
+
+    color:white;
+
+    padding:12px;
+
+    font-size:11px;
+
+    text-align:left;
+
+    white-space:nowrap;
+
+}
+
+td{
+
+    padding:12px;
+
+    border-bottom:
+        1px solid #e2e8f0;
+
+    font-size:11px;
+
+}
+
+.badge{
+
+    display:inline-block;
+
+    padding:5px 9px;
+
+    border-radius:20px;
+
+    font-size:9px;
+
+    font-weight:900;
+
+}
+
+.present{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+}
+
+.absent{
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+
+}
+
+.good{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+}
+
+.low{
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+
+}
+
+.action{
+
+    border:0;
+
+    padding:11px 16px;
+
+    border-radius:9px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+}
+
+.action:hover{
+
+    background:#1d4ed8;
+
+}
+
+.action.secondary{
+
+    background:#0f766e;
+
+}
+
+.action.secondary:hover{
+
+    background:#115e59;
+
+}
+
+.action.dark{
+
+    background:#10204a;
+
+}
+
+.action.danger{
+
+    background:#b91c1c;
+
+}
+
+.ai{
+
+    margin-top:20px;
+
+    padding:24px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f172a,
+            #1e40af
+        );
+
+    color:white;
+
+}
+
+.ai p{
+
+    color:#bfdbfe;
+
+}
+
+.aiResult{
+
+    margin-top:15px;
+
+    background:white;
+
+    color:#10204a;
+
+    padding:18px;
+
+    border-radius:13px;
+
+    display:none;
+
+}
+
+.info-box{
+
+    padding:16px;
+
+    border-radius:13px;
+
+    background:#eff6ff;
+
+    border:1px solid #bfdbfe;
+
+    color:#1e3a8a;
+
+    margin-top:15px;
+
+}
+
+.empty{
+
+    padding:20px;
+
+    text-align:center;
+
+    color:#64748b;
+
+    background:#f8fafc;
+
+    border-radius:12px;
+
+}
+
+.error{
+
+    padding:15px;
+
+    border-radius:12px;
+
+    background:#fee2e2;
+
+    color:#991b1b;
+
+}
+
+.loading{
+
+    padding:15px;
+
+    color:#64748b;
+
+}
+
+.period-card{
+
+    border:
+        1px solid #e2e8f0;
+
+    border-radius:14px;
+
+    padding:16px;
+
+    margin-top:12px;
+
+    background:#ffffff;
+
+}
+
+.period-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+}
+
+.period-title{
+
+    font-size:15px;
+
+    font-weight:900;
+
+}
+
+.period-details{
+
+    margin-top:10px;
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:10px;
+
+}
+
+.detail{
+
+    padding:10px;
+
+    border-radius:9px;
+
+    background:#f8fafc;
+
+}
+
+.detail small{
+
+    display:block;
+
+    color:#64748b;
+
+    font-size:9px;
+
+    font-weight:900;
+
+}
+
+.detail strong{
+
+    display:block;
+
+    margin-top:4px;
+
+    font-size:11px;
+
+}
+
+@media(max-width:900px){
+
+    .cards,
+    .stats{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    .period-details{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    header{
+
+        padding:10px 15px;
+
+    }
+
+    nav{
+
+        display:none;
+
+    }
+
+    main{
+
+        padding:15px;
+
+    }
+
+    .cards,
+    .stats,
+    .period-details{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="brand">
+
+        <div class="logo">
+            DIET
+        </div>
+
+        <div>
+
+            <h1>
+                DIET Attendance AI
+            </h1>
+
+            <p>
+                STUDENT PORTAL
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <nav>
+
+        <button
+            onclick="goHome()">
+            Home
+        </button>
+
+        <button
+            onclick="openTimetable()">
+            Timetable
+        </button>
+
+        <button
+            onclick="openDepartmentTimetable()">
+            Department Timetable
+        </button>
+
+        <button
+            onclick="logout()">
+            Logout
+        </button>
+
+    </nav>
+
+</header>
+
+
+
+<main>
+
+
+<section class="hero">
+
+    <h2 id="welcome">
+        Student Portal
+    </h2>
+
+    <p id="subTitle">
+        Loading authenticated student...
+    </p>
+
+</section>
+
+
+
+<section class="cards">
+
+
+    <div class="card">
+
+        <div class="label">
+            STUDENT ID
+        </div>
+
+        <div
+            class="value"
+            id="studentId">
+            —
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="label">
+            STUDENT NAME
+        </div>
+
+        <div
+            class="value"
+            id="studentName">
+            —
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="label">
+            DEPARTMENT
+        </div>
+
+        <div
+            class="value"
+            id="department">
+            —
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="label">
+            ROLE
+        </div>
+
+        <div class="value">
+            STUDENT
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- EXISTING ATTENDANCE -->
+
+<section class="panel">
+
+    <div class="panel-header">
+
+        <h2>
+            📊 My Attendance
+        </h2>
+
+        <button
+            class="action"
+            onclick="loadAttendance()">
+            Refresh Attendance
+        </button>
+
+    </div>
+
+
+    <div
+        id="statsArea"
+        style="margin-top:20px">
+
+        <p class="loading">
+            Loading attendance...
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- EXISTING ATTENDANCE HISTORY -->
+
+<section class="panel">
+
+    <div class="panel-header">
+
+        <h2>
+            📅 Attendance History
+        </h2>
+
+        <button
+            class="action secondary"
+            onclick="loadAttendanceHistory()">
+            Refresh History
+        </button>
+
+    </div>
+
+
+    <div id="historyArea">
+
+        <p class="loading">
+            Attendance records will appear here.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- NEW PERIOD-WISE ATTENDANCE -->
+
+<section class="panel">
+
+    <div class="panel-header">
+
+        <h2>
+            🕐 Period-Wise Attendance
+        </h2>
+
+        <button
+            class="action"
+            onclick="loadPeriodAttendance()">
+            Refresh Periods
+        </button>
+
+    </div>
+
+
+    <div class="info-box">
+
+        Your period-wise attendance is connected to the
+        faculty attendance records. Each record contains
+        date, period, subject, faculty, time, room and
+        attendance status.
+
+    </div>
+
+
+    <div id="periodAttendanceArea">
+
+        <p class="loading">
+            Loading period-wise attendance...
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- COLLEGE TIMINGS -->
+
+<section class="panel">
+
+    <h2>
+        🗓️ College Timings
+    </h2>
+
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <div class="label">
+                COLLEGE
+            </div>
+
+            <div class="number">
+                09:00–16:30
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="label">
+                SHORT BREAK
+            </div>
+
+            <div class="number">
+                10:40–10:50
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="label">
+                LUNCH
+            </div>
+
+            <div class="number">
+                12:20–13:10
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="label">
+                WORKING PERIODS
+            </div>
+
+            <div class="number">
+                8
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Period
+                    </th>
+
+                    <th>
+                        Start
+                    </th>
+
+                    <th>
+                        End
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+                    <td>1</td>
+                    <td>09:00</td>
+                    <td>09:50</td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>09:50</td>
+                    <td>10:40</td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>10:50</td>
+                    <td>11:40</td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>11:40</td>
+                    <td>12:20</td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>13:10</td>
+                    <td>14:00</td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>14:00</td>
+                    <td>14:50</td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td>14:50</td>
+                    <td>15:40</td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td>15:40</td>
+                    <td>16:30</td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+
+<!-- AI -->
+
+<section class="ai">
+
+    <h2>
+        ✦ AI Student Assistant
+    </h2>
+
+    <p>
+        Analyze your attendance and receive an academic
+        summary.
+    </p>
+
+
+    <button
+        id="aiButton"
+        class="action"
+        onclick="analyzeAI()">
+
+        ✦ Analyze With AI
+
+    </button>
+
+
+    <div
+        id="aiResult"
+        class="aiResult">
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<script>
+
+"use strict";
+
+
+
+/* =====================================================
+   AUTHENTICATION
+   ===================================================== */
+
+let user = null;
+
+
+
+function readUser(){
+
+    const raw =
+
+        sessionStorage.getItem(
+            "authenticatedUser"
+        )
+
+        ||
+
+        localStorage.getItem(
+            "authenticatedUser"
+        )
+
+        ||
+
+        sessionStorage.getItem(
+            "attendanceUser"
+        )
+
+        ||
+
+        localStorage.getItem(
+            "attendanceUser"
+        );
+
+
+    if(!raw){
+
+        window.location.href =
+            "/login.html";
+
+        return null;
+
+    }
+
+
+    try{
+
+        return JSON.parse(raw);
+
+    }
+
+    catch(error){
+
+        sessionStorage.clear();
+
+        localStorage.clear();
+
+        window.location.href =
+            "/login.html";
+
+        return null;
+
+    }
+
+}
+
+
+
+user = readUser();
+
+
+
+if(!user){
+
+    throw new Error(
+        "Authentication required."
+    );
+
+}
+
+
+
+/* =====================================================
+   USER DATA
+   ===================================================== */
+
+const studentId =
+
+    user.id
+
+    ||
+
+    user.registrationNumber
+
+    ||
+
+    "";
+
+
+
+const studentName =
+
+    user.name
+
+    ||
+
+    "Student";
+
+
+
+const department =
+
+    user.department
+
+    ||
+
+    "";
+
+
+
+const facultyId =
+
+    user.id
+
+    ||
+
+    "";
+
+
+
+document.getElementById(
+    "studentId"
+).textContent = studentId;
+
+
+
+document.getElementById(
+    "studentName"
+).textContent = studentName;
+
+
+
+document.getElementById(
+    "department"
+).textContent = department;
+
+
+
+document.getElementById(
+    "welcome"
+).textContent =
+    "Welcome, " + studentName;
+
+
+
+document.getElementById(
+    "subTitle"
+).textContent =
+
+    department
+
+    +
+
+    " · Student Attendance Dashboard";
+
+
+
+/* =====================================================
+   HOME
+   ===================================================== */
+
+function goHome(){
+
+    window.location.href = "/";
+
+}
+
+
+
+/* =====================================================
+   EXISTING TIMETABLE
+   ===================================================== */
+
+function openTimetable(){
+
+    window.location.href =
+
+        "/timetable.html?department="
+
+        +
+
+        encodeURIComponent(
+            department
+        );
+
+}
+
+
+
+/* =====================================================
+   NEW DEPARTMENT TIMETABLE
+   ===================================================== */
+
+function openDepartmentTimetable(){
+
+    window.location.href =
+
+        "/department-timetable.html?department="
+
+        +
+
+        encodeURIComponent(
+            department
+        );
+
+}
+
+
+
+/* =====================================================
+   EXISTING ATTENDANCE
+   ===================================================== */
+
+async function loadAttendance(){
+
+    const statsArea =
+        document.getElementById(
+            "statsArea"
+        );
+
+
+    statsArea.innerHTML =
+        '<p class="loading">Loading attendance...</p>';
+
+
+    try{
+
+        const response =
+
+            await fetch(
+
+                "/api/attendance/student/"
+
+                +
+
+                encodeURIComponent(
+                    studentId
+                )
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+
+                data.message
+
+                ||
+
+                "Unable to load attendance."
+
+            );
+
+        }
+
+
+        const percentage =
+
+            Number(
+                data.percentage || 0
+            );
+
+
+        const status =
+
+            String(
+                data.status || "LOW"
+            );
+
+
+        statsArea.innerHTML = `
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <div class="label">
+                        TOTAL CLASSES
+                    </div>
+
+                    <div class="number">
+                        ${data.totalClasses ?? 0}
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        PRESENT
+                    </div>
+
+                    <div class="number">
+                        ${data.present ?? 0}
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        ABSENT
+                    </div>
+
+                    <div class="number">
+                        ${data.absent ?? 0}
+                    </div>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <div class="label">
+                        ATTENDANCE
+                    </div>
+
+                    <div class="number">
+                        ${percentage}%
+                    </div>
+
+                    <div style="margin-top:7px">
+
+                        <span class="badge ${
+                            status === "GOOD"
+                            ? "good"
+                            : "low"
+                        }">
+
+                            ${escapeHtml(status)}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        await loadAttendanceHistory();
+
+    }
+
+    catch(error){
+
+        statsArea.innerHTML =
+
+            "<div class='error'>"
+
+            +
+
+            escapeHtml(
+                error.message
+            )
+
+            +
+
+            "</div>";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   EXISTING ATTENDANCE HISTORY
+   ===================================================== */
+
+async function loadAttendanceHistory(){
+
+    const historyArea =
+
+        document.getElementById(
+            "historyArea"
+        );
+
+
+    historyArea.innerHTML =
+
+        '<p class="loading">Loading attendance history...</p>';
+
+
+    try{
+
+        const response =
+
+            await fetch(
+
+                "/api/attendance/student/"
+
+                +
+
+                encodeURIComponent(
+                    studentId
+                )
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+
+                data.message
+
+                ||
+
+                "Unable to load attendance history."
+
+            );
+
+        }
+
+
+        const records =
+
+            Array.isArray(
+                data.records
+            )
+
+            ?
+
+            data.records
+
+            :
+
+            [];
+
+
+        if(records.length === 0){
+
+            historyArea.innerHTML = `
+
+                <div class="empty">
+
+                    No attendance has been recorded yet.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        let html = `
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Date</th>
+
+                            <th>Subject</th>
+
+                            <th>Status</th>
+
+                            <th>Marked By</th>
+
+                            <th>Time</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+        `;
+
+
+        records
+            .slice()
+            .reverse()
+            .forEach(
+                record => {
+
+                    const present =
+
+                        String(
+                            record.status || ""
+                        ).toUpperCase()
+
+                        ===
+
+                        "PRESENT";
+
+
+                    html += `
+
+                        <tr>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.date
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.subject
+                                )}
+                            </td>
+
+                            <td>
+
+                                <span class="badge ${
+                                    present
+                                    ? "present"
+                                    : "absent"
+                                }">
+
+                                    ${escapeHtml(
+                                        record.status
+                                    )}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.markedBy
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    record.markedAt
+                                )}
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }
+            );
+
+
+        html += `
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+
+        historyArea.innerHTML =
+            html;
+
+    }
+
+    catch(error){
+
+        historyArea.innerHTML =
+
+            "<div class='error'>"
+
+            +
+
+            escapeHtml(
+                error.message
+            )
+
+            +
+
+            "</div>";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   NEW PERIOD-WISE ATTENDANCE
+   ===================================================== */
+
+async function loadPeriodAttendance(){
+
+    const area =
+
+        document.getElementById(
+            "periodAttendanceArea"
+        );
+
+
+    area.innerHTML =
+
+        '<p class="loading">Loading period-wise attendance...</p>';
+
+
+    try{
+
+        const response =
+
+            await fetch(
+
+                "/api/period-attendance/student/"
+
+                +
+
+                encodeURIComponent(
+                    studentId
+                )
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+
+                data.message
+
+                ||
+
+                "Unable to load period-wise attendance."
+
+            );
+
+        }
+
+
+        const records =
+
+            Array.isArray(data)
+
+            ?
+
+            data
+
+            :
+
+            Array.isArray(data.records)
+
+            ?
+
+            data.records
+
+            :
+
+            [];
+
+
+        if(records.length === 0){
+
+            area.innerHTML = `
+
+                <div class="empty">
+
+                    No period-wise attendance has been
+                    recorded yet.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        let html = "";
+
+
+        records
+            .slice()
+            .reverse()
+            .forEach(
+                record => {
+
+                    const status =
+
+                        String(
+                            record.status || ""
+                        ).toUpperCase();
+
+
+                    const isPresent =
+                        status === "PRESENT";
+
+
+                    html += `
+
+                        <div class="period-card">
+
+                            <div class="period-top">
+
+                                <div class="period-title">
+
+                                    Period
+                                    ${escapeHtml(
+                                        record.period ?? "-"
+                                    )}
+
+                                    ·
+
+                                    ${escapeHtml(
+                                        record.subject || "Subject"
+                                    )}
+
+                                </div>
+
+
+                                <span class="badge ${
+                                    isPresent
+                                    ? "present"
+                                    : "absent"
+                                }">
+
+                                    ${escapeHtml(
+                                        record.status || "-"
+                                    )}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="period-details">
+
+
+                                <div class="detail">
+
+                                    <small>
+                                        DATE
+                                    </small>
+
+                                    <strong>
+                                        ${escapeHtml(
+                                            record.date || "-"
+                                        )}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <small>
+                                        TIME
+                                    </small>
+
+                                    <strong>
+
+                                        ${escapeHtml(
+                                            record.startTime || "-"
+                                        )}
+
+                                        -
+
+                                        ${escapeHtml(
+                                            record.endTime || "-"
+                                        )}
+
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <small>
+                                        FACULTY
+                                    </small>
+
+                                    <strong>
+                                        ${escapeHtml(
+                                            record.facultyName || "-"
+                                        )}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="detail">
+
+                                    <small>
+                                        ROOM
+                                    </small>
+
+                                    <strong>
+                                        ${escapeHtml(
+                                            record.room || "-"
+                                        )}
+                                    </strong>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <div
+                                style="
+                                    margin-top:10px;
+                                    color:#64748b;
+                                    font-size:10px;
+                                "
+                            >
+
+                                Department:
+                                ${escapeHtml(
+                                    record.department || department || "-"
+                                )}
+
+                                &nbsp; | &nbsp;
+
+                                Marked:
+                                ${escapeHtml(
+                                    record.markedAt || "-"
+                                )}
+
+                            </div>
+
+
+                        </div>
+
+                    `;
+
+                }
+            );
+
+
+        area.innerHTML =
+            html;
+
+    }
+
+    catch(error){
+
+        area.innerHTML = `
+
+            <div class="error">
+
+                ${escapeHtml(
+                    error.message
+                )}
+
+                <br><br>
+
+                <small>
+
+                    Make sure the period attendance
+                    backend is running and the endpoint
+                    /api/period-attendance/student/{id}
+                    is available.
+
+                </small>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+/* =====================================================
+   AI
+   ===================================================== */
+
+async function analyzeAI(){
+
+    const button =
+
+        document.getElementById(
+            "aiButton"
+        );
+
+
+    const result =
+
+        document.getElementById(
+            "aiResult"
+        );
+
+
+    button.disabled = true;
+
+
+    button.textContent =
+        "🤖 ANALYZING...";
+
+
+    result.style.display =
+        "block";
+
+
+    result.innerHTML =
+        "Connecting to AI...";
+
+
+    try{
+
+        const response =
+
+            await fetch(
+
+                "/api/ai/analyze",
+
+                {
+
+                    method:"POST",
+
+                    headers:{
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:JSON.stringify({
+
+                        name:
+                            studentName,
+
+                        role:
+                            "STUDENT",
+
+                        department:
+                            department,
+
+                        studentId:
+                            studentId
+
+                    })
+
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(!response.ok){
+
+            throw new Error(
+
+                data.message
+
+                ||
+
+                "AI request failed."
+
+            );
+
+        }
+
+
+        result.innerHTML =
+
+            "<strong>AI Result</strong>"
+
+            +
+
+            "<br><br>"
+
+            +
+
+            escapeHtml(
+
+                data.summary
+
+                ||
+
+                data.message
+
+                ||
+
+                JSON.stringify(data)
+
+            );
+
+    }
+
+    catch(error){
+
+        result.innerHTML =
+
+            "<strong>AI unavailable</strong>"
+
+            +
+
+            "<br><br>"
+
+            +
+
+            escapeHtml(
+                error.message
+            );
+
+    }
+
+    finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "✦ Analyze With AI";
+
+    }
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+   ===================================================== */
+
+function logout(){
+
+    sessionStorage.clear();
+
+    localStorage.clear();
+
+    window.location.href =
+        "/login.html";
+
+}
+
+
+
+/* =====================================================
+   HTML SAFETY
+   ===================================================== */
+
+function escapeHtml(value){
+
+    return String(
+        value ?? ""
+    )
+
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+
+    .replace(
+        /</g,
+        "&lt;"
+    )
+
+    .replace(
+        />/g,
+        "&gt;"
+    )
+
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+
+/* =====================================================
+   INITIAL LOAD
+   ===================================================== */
+
+loadAttendance();
+
+loadPeriodAttendance();
+
+</script>
+
+
+</body>
+
+</html>

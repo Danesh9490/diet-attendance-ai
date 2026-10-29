@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DIET Attendance AI | Faculty</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Segoe UI,Arial,sans-serif;
+color:#10204a;
+min-height:100vh;
+background:
+linear-gradient(rgba(0,20,55,.42),rgba(0,20,55,.62)),
+url("https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=2400&q=95")
+center/cover fixed no-repeat;
+}
+header{
+height:72px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:10px 28px;
+background:rgba(3,25,65,.96);
+color:#fff;
+position:sticky;
+top:0;
+z-index:10;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+width:46px;height:46px;border-radius:13px;
+display:grid;place-items:center;
+font-weight:900;font-size:12px;
+background:linear-gradient(135deg,#2563eb,#06b6d4);
+}
+.brand h1{margin:0;font-size:18px}
+.brand p{margin:2px 0 0;font-size:9px;color:#bfdbfe;font-weight:800}
+nav button{
+border:0;padding:10px 14px;border-radius:9px;
+background:rgba(255,255,255,.12);color:white;
+font-weight:800;cursor:pointer;margin-left:5px;
+}
+main{max-width:1400px;margin:auto;padding:28px}
+.hero,.card,.panel{
+background:rgba(255,255,255,.97);
+border-radius:20px;
+box-shadow:0 15px 45px rgba(0,0,0,.16);
+}
+.hero{padding:28px}
+.hero h2{margin:0;font-size:29px}
+.hero p{color:#64748b}
+.cards{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:14px;
+margin-top:18px;
+}
+.card{padding:19px}
+.label{font-size:9px;color:#64748b;font-weight:900}
+.value{margin-top:7px;font-weight:900;font-size:16px}
+.panel{margin-top:20px;padding:24px}
+.panel h2{margin-top:0}
+.controls{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+select,input,button.actionBtn{
+padding:11px 13px;
+border:1px solid #cbd5e1;
+border-radius:9px;
+font:inherit;
+}
+button.actionBtn{
+background:#2563eb;
+color:white;
+border:0;
+font-weight:900;
+cursor:pointer;
+}
+button.actionBtn.secondary{
+background:#475569;
+}
+button.actionBtn.danger{
+background:#dc2626;
+}
+button.actionBtn:disabled{
+opacity:.55;
+cursor:wait;
+}
+table{width:100%;border-collapse:collapse}
+th{
+background:#10204a;color:white;
+padding:12px;
+font-size:11px;
+text-align:left;
+}
+td{
+padding:12px;
+border-bottom:1px solid #e2e8f0;
+font-size:11px;
+}
+.badge{
+display:inline-block;
+padding:5px 9px;
+border-radius:20px;
+font-size:9px;
+font-weight:900;
+}
+.present{background:#dcfce7;color:#15803d}
+.absent{background:#fee2e2;color:#b91c1c}
+.pending{background:#fef3c7;color:#a16207}
+.info{background:#dbeafe;color:#1d4ed8}
+.message{
+margin-top:15px;
+padding:13px;
+border-radius:10px;
+display:none;
+font-weight:700;
+}
+.success{display:block;background:#dcfce7;color:#166534}
+.error{display:block;background:#fee2e2;color:#991b1b}
+.ai{
+margin-top:20px;
+padding:24px;
+border-radius:20px;
+background:linear-gradient(135deg,#0f172a,#1e40af);
+color:white;
+}
+.ai p{color:#bfdbfe}
+.aiResult{
+margin-top:15px;
+background:white;
+color:#10204a;
+padding:18px;
+border-radius:13px;
+display:none;
+}
+@media(max-width:900px){
+.cards{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+header{padding:10px 15px}
+nav{display:none}
+main{padding:15px}
+.cards{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="brand">
+<div class="logo">DIET</div>
+<div>
+<h1>DIET Attendance AI</h1>
+<p>FACULTY PORTAL</p>
+</div>
+</div>
+
+<nav>
+<button onclick="location.href='/'">Home</button>
+<button onclick="openTimetable()">Timetable</button>
+<button onclick="logout()">Logout</button>
+</nav>
+</header>
+
+<main>
+
+<section class="hero">
+<h2 id="welcome">Faculty Portal</h2>
+<p id="subTitle">Loading authenticated faculty...</p>
+</section>
+
+<section class="cards">
+
+<div class="card">
+<div class="label">TEACHER ID</div>
+<div class="value" id="facultyId">—</div>
+</div>
+
+<div class="card">
+<div class="label">FACULTY</div>
+<div class="value" id="facultyName">—</div>
+</div>
+
+<div class="card">
+<div class="label">DEPARTMENT</div>
+<div class="value" id="department">—</div>
+</div>
+
+<div class="card">
+<div class="label">ROLE</div>
+<div class="value">FACULTY</div>
+</div>
+
+</section>
+
+<section class="panel">
+
+<h2>✅ Mark Attendance</h2>
+
+<div class="controls">
+
+<select id="subject">
+<option value="">Select Subject</option>
+<option>Programming</option>
+<option>Database Systems</option>
+<option>Web Technologies</option>
+<option>Computer Networks</option>
+<option>Project</option>
+<option>Laboratory</option>
+</select>
+
+<button
+class="actionBtn secondary"
+onclick="loadStudents()">
+Load Students
+</button>
+
+</div>
+
+<div id="message" class="message"></div>
+
+<div id="studentsArea">
+<p>Select a subject and click <b>Load Students</b>.</p>
+</div>
+
+</section>
+
+<section class="panel">
+
+<h2>📊 Department Attendance</h2>
+
+<button
+class="actionBtn"
+onclick="loadDepartmentSummary()">
+Refresh Attendance
+</button>
+
+<div id="summaryArea" style="margin-top:18px">
+<p>Click Refresh Attendance.</p>
+</div>
+
+</section>
+
+<section class="ai">
+
+<h2>✦ AI Faculty Assistant</h2>
+
+<p>
+Analyze the current faculty attendance information.
+</p>
+
+<button
+id="aiButton"
+class="actionBtn"
+onclick="analyzeAI()">
+✦ Analyze With AI
+</button>
+
+<div id="aiResult" class="aiResult"></div>
+
+</section>
+
+</main>
+
+<script>
+
+"use strict";
+
+let user=null;
+let students=[];
+
+function readUser(){
+
+const raw=
+sessionStorage.getItem("authenticatedUser") ||
+localStorage.getItem("authenticatedUser") ||
+sessionStorage.getItem("attendanceUser") ||
+localStorage.getItem("attendanceUser");
+
+if(!raw){
+
+window.location.href="/login.html";
+return null;
+}
+
+try{
+
+return JSON.parse(raw);
+
+}catch(e){
+
+sessionStorage.clear();
+localStorage.clear();
+window.location.href="/login.html";
+return null;
+
+}
+
+}
+
+user=readUser();
+
+if(!user){
+throw new Error("Authentication required.");
+}
+
+const facultyId=
+user.id ||
+user.registrationNumber ||
+"";
+
+const facultyName=
+user.name ||
+"Faculty";
+
+const department=
+user.department ||
+"";
+
+document.getElementById("facultyId").textContent=facultyId;
+document.getElementById("facultyName").textContent=facultyName;
+document.getElementById("department").textContent=department;
+
+document.getElementById("welcome").textContent=
+"Welcome, "+facultyName;
+
+document.getElementById("subTitle").textContent=
+department+" · Faculty Attendance Dashboard";
+
+
+function showMessage(text,type){
+
+const box=document.getElementById("message");
+
+box.textContent=text;
+
+box.className=
+"message "+
+(type==="success"?"success":"error");
+
+}
+
+
+async function loadStudents(){
+
+const subject=
+document.getElementById("subject").value;
+
+if(!subject){
+
+showMessage(
+"Please select a subject first.",
+"error"
+);
+
+return;
+}
+
+if(!department){
+
+showMessage(
+"Your account has no department.",
+"error"
+);
+
+return;
+}
+
+const area=
+document.getElementById("studentsArea");
+
+area.innerHTML=
+"<p>Loading department students...</p>";
+
+try{
+
+const response=
+await fetch(
+"/api/attendance/students/"+
+encodeURIComponent(department)
+);
+
+const data=
+await response.json();
+
+if(!response.ok){
+
+throw new Error(
+data.message ||
+"Unable to load students."
+);
+
+}
+
+students=Array.isArray(data)?data:[];
+
+if(students.length===0){
+
+area.innerHTML=
+"<p>No students found in this department.</p>";
+
+return;
+}
+
+let html=`
+
+<table>
+
+<thead>
+
+<tr>
+<th>Student ID</th>
+<th>Name</th>
+<th>Department</th>
+<th>Attendance</th>
+</tr>
+
+</thead>
+
+<tbody>
+`;
+
+students.forEach((student,index)=>{
+
+html+=`
+
+<tr>
+
+<td>
+<strong>${escapeHtml(student.id)}</strong>
+</td>
+
+<td>
+${escapeHtml(student.name)}
+</td>
+
+<td>
+${escapeHtml(student.department)}
+</td>
+
+<td>
+
+<button
+class="actionBtn"
+onclick="saveAttendance('${escapeAttr(student.id)}','PRESENT')">
+Present
+</button>
+
+<button
+class="actionBtn danger"
+onclick="saveAttendance('${escapeAttr(student.id)}','ABSENT')">
+Absent
+</button>
+
+<span
+id="status-${index}"
+class="badge pending">
+Not Marked
+</span>
+
+</td>
+
+</tr>
+`;
+
+});
+
+html+=`
+</tbody>
+</table>
+`;
+
+area.innerHTML=html;
+
+}catch(error){
+
+area.innerHTML=
+"<p style='color:#b91c1c'>"+
+escapeHtml(error.message)+
+"</p>";
+
+}
+
+}
+
+
+async function saveAttendance(
+studentId,
+status){
+
+const subject=
+document.getElementById("subject").value;
+
+if(!subject){
+
+showMessage(
+"Select a subject first.",
+"error"
+);
+
+return;
+}
+
+try{
+
+const response=
+await fetch(
+"/api/attendance/mark",
+{
+method:"POST",
+headers:{
+"Content-Type":
+"application/json"
+},
+body:JSON.stringify({
+
+facultyId:facultyId,
+studentId:studentId,
+subject:subject,
+status:status
+
+})
+}
+);
+
+const data=
+await response.json();
+
+if(!response.ok ||
+!data.success){
+
+throw new Error(
+data.message ||
+"Attendance could not be saved."
+);
+
+}
+
+showMessage(
+"Attendance saved: "+
+studentId+
+" → "+
+status,
+"success"
+);
+
+await loadStudents();
+
+}catch(error){
+
+showMessage(
+error.message,
+"error"
+);
+
+}
+
+}
+
+
+async function loadDepartmentSummary(){
+
+if(!department){
+
+return;
+}
+
+const area=
+document.getElementById("summaryArea");
+
+area.innerHTML=
+"<p>Loading attendance...</p>";
+
+try{
+
+const response=
+await fetch(
+"/api/attendance/department/"+
+encodeURIComponent(department)
+);
+
+const data=
+await response.json();
+
+if(!response.ok){
+
+throw new Error(
+data.message ||
+"Unable to load summary."
+);
+
+}
+
+area.innerHTML=`
+
+<div class="cards">
+
+<div class="card">
+<div class="label">STUDENTS</div>
+<div class="value">${data.students??0}</div>
+</div>
+
+<div class="card">
+<div class="label">PRESENT</div>
+<div class="value">${data.present??0}</div>
+</div>
+
+<div class="card">
+<div class="label">ABSENT</div>
+<div class="value">${data.absent??0}</div>
+</div>
+
+<div class="card">
+<div class="label">ATTENDANCE</div>
+<div class="value">${data.percentage??0}%</div>
+</div>
+
+</div>
+
+`;
+
+}catch(error){
+
+area.innerHTML=
+"<p style='color:#b91c1c'>"+
+escapeHtml(error.message)+
+"</p>";
+
+}
+
+}
+
+
+async function analyzeAI(){
+
+const button=
+document.getElementById("aiButton");
+
+const result=
+document.getElementById("aiResult");
+
+button.disabled=true;
+button.textContent="🤖 ANALYZING...";
+
+result.style.display="block";
+result.innerHTML=
+"Connecting to AI...";
+
+try{
+
+const response=
+await fetch(
+"/api/ai/analyze",
+{
+method:"POST",
+headers:{
+"Content-Type":
+"application/json"
+},
+body:JSON.stringify({
+
+name:facultyName,
+role:"FACULTY",
+department:department
+
+})
+}
+);
+
+const data=
+await response.json();
+
+if(!response.ok){
+
+throw new Error(
+data.message ||
+"AI request failed."
+);
+
+}
+
+result.innerHTML=
+"<strong>AI Result</strong><br><br>"+
+escapeHtml(
+data.summary ||
+data.message ||
+JSON.stringify(data)
+);
+
+}catch(error){
+
+result.innerHTML=
+"<strong>AI unavailable</strong><br><br>"+
+escapeHtml(error.message);
+
+}finally{
+
+button.disabled=false;
+button.textContent="✦ Analyze With AI";
+
+}
+
+}
+
+
+function openTimetable(){
+
+window.location.href=
+"/timetable.html?department="+
+encodeURIComponent(department);
+
+}
+
+
+function logout(){
+
+sessionStorage.clear();
+localStorage.clear();
+
+window.location.href="/login.html";
+
+}
+
+
+function escapeHtml(value){
+
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttr(value){
+
+return String(value??"")
+.replace(/\\/g,"\\\\")
+.replace(/'/g,"\\'");
+
+}
+
+</script>
+
+</body>
+</html>
